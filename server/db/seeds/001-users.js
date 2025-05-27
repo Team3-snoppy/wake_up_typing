@@ -25,12 +25,3 @@ exports.seed = async function (knex) {
     },
   ]);
 };
-// ハッシュ　パスワード+ソルト文字列をハッシュ化したもの
-//ハッシュ化される前にソルト　ソルトは難読化されない
-//ハッシュはハッシュ化後
-//ハッシュ化とソルト化はサーバー側で！ブラウザ側だと安全ではない
-
-// table.string('user_name').unique().notNullable();
-// table.string('salt').notNullable();
-// table.string('hash').notNullable();
-// table.string('session_id');
