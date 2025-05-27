@@ -11,7 +11,7 @@ router.use('/', (req,res)=>{
 
 router.post('/login', async(req,res)=>{
     const {userName, password} = req.body;
-    const user = await db('users').where('name', userName).first();
+    const user = await db('users').where('user_name', userName).first();
     if (user.length===0){
         return res.status(404).send('ユーザーが見つかりません')
     }
@@ -21,10 +21,10 @@ router.post('/login', async(req,res)=>{
         return res.status(404).send('パスワードが違います')
     }
 
-    const sessionId =  createSession(userName);
-    await db('users').where('name', userName).update('session_id', sessionId);
+    const sessionId =  createSession();
+    await db('users').where('user_name', userName).update('session_id', sessionId);
 
-    res.cookie('sessionid',sessionId,{
+    res.cookie('sessionId',sessionId,{
         httpOnly: true,
         secure: false,
         sameSite: 'Lax', // クロスサイトリクエスト時のクッキー送信を制御。
