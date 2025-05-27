@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.integer('user_id').notNullable();
     table.integer('game_score').notNullable();
     table.datetime('create_at').notNullable();
+    table.foreign('user_id').references('users.id');
   });
 };
 
