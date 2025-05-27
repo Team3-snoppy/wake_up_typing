@@ -9,8 +9,8 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      user: process.env.POSTGRES_USER || 'user',
-      database: process.env.POSTGRES_DB || 'snoppy',
+      user: process.env.POSTGRES_USER,
+      database: process.env.POSTGRES_DB,
     },
     migrations: {
       directory: 'db/migrations',

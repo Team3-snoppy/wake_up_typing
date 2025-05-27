@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.increments('id').primary();
     table.integer('user_id').notNullable();
     table.integer('game_score').notNullable();
-    table.datetime('create_ar').notNullable();
+    table.datetime('create_at').notNullable();
   });
 };
 
