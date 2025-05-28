@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
 import './Login.css';
 import { loginContext } from './App.jsx';
-import { fetchFn } from './function.js';
+import { fetchFn, fetchGetFn } from './function.js';
 
 function Login() {
   const { isLogin, setIsLogin, userInfo, setUserInfo } =
@@ -24,7 +24,7 @@ function Login() {
   }
 
   async function logout() {
-    fetchFn('/api/auth/logout', 'post').then((data) => {
+    fetchGetFn('/api/auth/logout', 'post').then((data) => {
       if (data.data === 'you logged out succesfully!') {
         setIsLogin(false);
         setUserInfo({ userId: '', userName: '' });
