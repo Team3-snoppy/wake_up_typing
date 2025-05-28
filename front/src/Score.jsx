@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { loginContext } from './App';
-import { Box } from '@mui/material';
+import Card from '@mui/material/Card';
 
 function Score() {
   const { isLogin } = useContext(loginContext);
@@ -24,10 +24,14 @@ function Score() {
 
   return (
     <>
-      <Box>本日の最高得点：{score}</Box>
-      {/* <Box sx={}>{score}</Box> */}
+      <Card sx={{ minWidth: 275 }}>Highest score today：{score}</Card>
     </>
   );
 }
 
 export default Score;
+
+//front_score git commit　までやる
+//mainに戻って pullする
+//front_score merge する
+//fetchの関数を受け取って使う
