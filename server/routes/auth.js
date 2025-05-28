@@ -3,14 +3,10 @@ const router = express.Router();
 const crypto = require('crypto');
 const db = require('./../index');
 
-// router.use('/', (req, res) => {
-//   res.send('hello, authRouter');
-// });
-
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
   const user = await db('users').where('user_name', userName).first();
-  if (user.length === 0) {
+  if (!user) {
     return res.status(404).send('ユーザーが見つかりません');
   }
   const hashedPassword = hashPassword(password, user.salt);
@@ -40,7 +36,6 @@ router.post('/login', async (req, res) => {
       secure: false,
       sameSite: 'Lax',
     });
-
     res.status(201).json({ data: 'ログイン成功' });
   } catch {
     res.status(404).send('何かおかしいです。');
@@ -48,7 +43,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', async (req, res) => {
-  const { sessionId, userId, userName } = req.cookies;
+  const {  userId } = req.cookies;
   try {
     await db('users').where('id', userId).update(`session_id`, null);
     res.clearCookie('sessionId', 'userId', 'userName');

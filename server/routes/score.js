@@ -4,9 +4,6 @@ const authCheck = require('./../middleware/authCheck');
 const db = require('./../index');
 
 router.use(authCheck);
-// router.use('/', (req, res) => {
-//   res.send('hello, scoreRouter');
-// });
 
 router.get('/records/:date', async (req, res) => {
   const date = req.params.date;
