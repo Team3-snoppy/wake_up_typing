@@ -8,7 +8,6 @@ function Login() {
   const refPass = useRef(null);
 
   async function login() {
-    console.log(refUser.current.value, refPass.current.value);
     await fetch('/api/auth/login', {
       method: 'post',
       headers: {
@@ -20,8 +19,11 @@ function Login() {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
-    setIsLogin(true);
+      .then(({data}) => {
+        console.log(data);
+        if(data.userId) setIsLogin(true);
+      });
+
   }
 
   return (
