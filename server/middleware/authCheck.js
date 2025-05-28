@@ -9,7 +9,7 @@ const authCheck = async (req, res, next) => {
   if (user.session_id === sessionId) {
     next();
   } else {
-    return res.status(401).send('Authorization, failed');
+    return res.status(401).json({data:'Authorization, failed'});
   }
 };
 
