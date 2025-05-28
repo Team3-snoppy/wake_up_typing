@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { loginContext } from './App';
 import Card from '@mui/material/Card';
+import { fetchGetFn } from './function.js';
 
 function Score() {
   const { isLogin } = useContext(loginContext);
@@ -13,9 +14,10 @@ function Score() {
   const day = date.getDate();
 
   async function getScore() {
-    const responce = await fetch(`/api/scores/records/${year}-${month}-${day}`);
-    const todayScore = await responce.json();
-    setScore(todayScore.data.game_score);
+    const responce = fetchGetFn(
+      `/api/scores/records/${year}-${month}-${day}`,
+      'get'
+    ).then((jsonData) => setScore(jsonData.data.game_score));
   }
 
   if (isLogin) {
@@ -24,14 +26,9 @@ function Score() {
 
   return (
     <>
-      <Card sx={{ minWidth: 275 }}>Highest score today：{score}</Card>
+      <Card>Highest score today：{score}</Card>
     </>
   );
 }
 
 export default Score;
-
-//front_score git commit　までやる
-//mainに戻って pullする
-//front_score merge する
-//fetchの関数を受け取って使う
