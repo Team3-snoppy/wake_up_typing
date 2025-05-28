@@ -3,9 +3,6 @@ import './Login.css';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(false);
-  // const [widthInput, setWidthInput] = useState('30%');
-  // const [widthButton, setButton] = useState('70%');
-  // const [loginState, setLoginState] = useState('login');
 
   const refUser = useRef(null);
   const refPass = useRef(null);
@@ -42,7 +39,7 @@ function Login() {
         <button className="button" onClick={login}>
           {!isLogin ? 'logoin' : 'logout'}
         </button>
-        <button className="button">sign up</button>
+        {!isLogin ? (<button className="button">sign up</button>) : ''}
       </div>
     </div>
   );
