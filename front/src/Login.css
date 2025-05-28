@@ -3,8 +3,8 @@
 }
 
 .inputForm {
-    text-align: left;
     width: 30%;
+    text-align: left;
     justify-content: start;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .submitButton {
-    width: 70%;
+    width: 100%;
     justify-content: start;
     text-align: left;
     display: flex;
