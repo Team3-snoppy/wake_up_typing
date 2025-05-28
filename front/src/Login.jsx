@@ -1,8 +1,11 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import './Login.css';
+import {loginContext} from  './App.jsx';
+
 
 function Login() {
-  const [isLogin, setIsLogin] = useState(false);
+  const {isLogin, setIsLogin} = useContext(loginContext);
+  
   const [userInfo, setUserInfo] = useState({userId: '', userName: ''});
 
   const refUser = useRef(null);
@@ -78,7 +81,7 @@ function Login() {
       <div className="submitButton">
         {!isLogin ? (
           <button className="button" onClick={login}>
-            logoin
+            login
           </button>
         ) : (
           <button className="button" onClick={logout}>
