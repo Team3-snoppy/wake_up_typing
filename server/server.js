@@ -5,7 +5,9 @@ const PORT = 3000;
 const app = express();
 const authRouter = require('./routes/auth');
 const scoreRouter = require('./routes/score');
+const path = require('path');
 
+app.use(express.static(path.join(__dirname, '../front/dist')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // form からのリクエストを受けるために必要
