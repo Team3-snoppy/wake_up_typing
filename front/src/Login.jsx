@@ -3,6 +3,7 @@ import './Login.css';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({userId: '', userName: ''});
 
   const refUser = useRef(null);
   const refPass = useRef(null);
@@ -19,12 +20,32 @@ function Login() {
       }),
     })
       .then((res) => res.json())
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data);
-        if(data.userId) setIsLogin(true);
+        if (data.userId) {
+          setIsLogin(true);
+          setUserInfo(data);
+        }
       });
-
   }
+
+  async function logout() {
+    await fetch('/api/auth/logout', {
+      method: 'post',
+    })
+      .then((res) => {
+        if (res.ok) {
+          setIsLogin(false);
+          setUserInfo({userId: '', userName: ''});
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
+  console.log(userInfo);
 
   return (
     <div className="formContainer">
@@ -38,10 +59,16 @@ function Login() {
         ''
       )}
       <div className="submitButton">
-        <button className="button" onClick={login}>
-          {!isLogin ? 'logoin' : 'logout'}
-        </button>
-        {!isLogin ? (<button className="button">sign up</button>) : ''}
+        {!isLogin ? (
+          <button className="button" onClick={login}>
+            logoin
+          </button>
+        ) : (
+          <button className="button" onClick={logout}>
+            logoout
+          </button>
+        )}
+        {!isLogin ? <button className="button">sign up</button> : ''}
       </div>
     </div>
   );

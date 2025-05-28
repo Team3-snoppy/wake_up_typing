@@ -7,12 +7,12 @@ router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
   const user = await db('users').where('user_name', userName).first();
   if (!user) {
-    return res.status(404).josn({data:'ユーザーが見つかりません'});
+    return res.status(404).json({data:'ユーザーが見つかりません'});
   }
   const hashedPassword = hashPassword(password, user.salt);
 
   if (hashedPassword !== user.hash) {
-    return res.status(404).josn({data:'パスワードが違います'});
+    return res.status(404).json({data:'パスワードが違います'});
   }
 
   const sessionId = createSession();
@@ -39,7 +39,7 @@ router.post('/login', async (req, res) => {
     res.status(201).json({ data: {userId:user.id, userName:user.user_name}
      });
   } catch {
-    res.status(404).josn({data:'何かおかしいです。'});
+    res.status(404).json({data:'何かおかしいです。'});
   }
 });
 
@@ -48,16 +48,16 @@ router.post('/logout', async (req, res) => {
   try {
     await db('users').where('id', userId).update(`session_id`, null);
     res.clearCookie('sessionId', 'userId', 'userName');
-    res.status(201).josn({data:'you logged out succesfully!'});
+    res.status(201).json({data:'you logged out succesfully!'});
   } catch {
-    res.status(404).josn({data:'cookieの値がおかしいかも'});
+    res.status(404).json({data:'cookieの値がおかしいかも'});
   }
 });
 
 router.post('/new-accounts', async (req, res) => {
   const { userName, password } = req.body;
   if (!userName || !password) {
-    return res.status(404).josn({data:'userNameまたはpasswordが受け取れていません。'});
+    return res.status(404).json({data:'userNameまたはpasswordが受け取れていません。'});
   }
   const salt = crypto.randomBytes(6).toString('hex');
   const hashedPassword = hashPassword(password, salt);
@@ -69,7 +69,7 @@ router.post('/new-accounts', async (req, res) => {
     });
     res.status(201).json({ data: userName });
   } catch {
-    res.status(404).josn({data:'userNameが重複しているか、何かおかしいです。'});
+    res.status(404).json({data:'userNameが重複しているか、何かおかしいです。'});
   }
 });
 
