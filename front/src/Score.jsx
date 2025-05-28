@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
-import './Score.css';
+import { useState, useEffect, useContext } from 'react';
+import { loginContext } from './App';
+import { Box } from '@mui/material';
 
 function Score() {
+  const { isLogin } = useContext(loginContext);
+
   const [score, setScore] = useState(0);
 
   const date = new Date();
@@ -17,9 +20,13 @@ function Score() {
 
   useEffect(() => {
     getScore();
-  }, []);
+  }, [isLogin]);
 
-  return <div className="scorContainer">{score}</div>;
+  return (
+    <>
+      <Box>{score}</Box>
+    </>
+  );
 }
 
 export default Score;

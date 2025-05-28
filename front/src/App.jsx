@@ -33,8 +33,8 @@ function App() {
         <Button variant="contained" color="error">
           error
         </Button>
-        <Appbar/>
-       
+        <Appbar />
+
         <div className="appContainer">
           <Login />
           <Game />
