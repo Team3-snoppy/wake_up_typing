@@ -36,7 +36,8 @@ router.post('/login', async (req, res) => {
       secure: false,
       sameSite: 'Lax',
     });
-    res.status(201).json({ data: 'ログイン成功' });
+    res.status(201).json({ data: {userId:user.id, userName:user.userName}
+     });
   } catch {
     res.status(404).josn({data:'何かおかしいです。'});
   }
