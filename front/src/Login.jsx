@@ -45,6 +45,23 @@ function Login() {
       });
   }
 
+  async function signUp() {
+    await fetch('/api/auth/new-accounts', {
+      method: 'post',
+            headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: refUser.current.value,
+        password: refPass.current.value,
+      }),
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
+    refUser.current.value = '';
+     refPass.current.value = '';
+  }
+
   console.log(userInfo);
 
   return (
@@ -68,7 +85,7 @@ function Login() {
             logoout
           </button>
         )}
-        {!isLogin ? <button className="button">sign up</button> : ''}
+        {!isLogin ? <button className="button" onClick={signUp}>sign up</button> : ''}
       </div>
     </div>
   );
