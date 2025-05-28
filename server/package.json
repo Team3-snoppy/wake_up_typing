@@ -7,8 +7,10 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "db:migrate:make": "npx knex migrate:make  --knexfile knexfile.js",
+    "db:seed:make": "npx knex seed:make  --knexfile knexfile.js",
     "db:migrate": "npx knex migrate:latest --knexfile knexfile.js",
-    "migrate-rollback-all": "npx knex migrate:rollback --all --knexfile knexfile.js"
+    "db:seed": "knex seed:run --knexfile knexfile.js",
+    "db:migrate-rollback-all": "npx knex migrate:rollback --all --knexfile knexfile.js"
   },
   "keywords": [],
   "author": "",
