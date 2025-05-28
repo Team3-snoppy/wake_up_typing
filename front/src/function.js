@@ -1,4 +1,4 @@
-  export async function fetchFn(url, method, body) {
+  export async function fetchFn(url, method, body = null) {
     return await fetch(url, {
       method: method,
       headers: {
