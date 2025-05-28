@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // form からのリクエストを受けるために必要
 app.use(cors()) //一旦全てを許可
 app.use('/api/auth', authRouter);
-app.use('/api/score', scoreRouter);
+app.use('/api/scores', scoreRouter);
 
 app.use('/', (req, res) => {
   res.send('hello,world');
