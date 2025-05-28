@@ -1,7 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './Login.css';
 
 function Login() {
+  const [loginForm, setLoginForm] = useState('block')
+
   const refUser = useRef(null);
   const refPass = useRef(null);
 
@@ -16,14 +18,15 @@ function Login() {
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
+      setLoginForm('none');
   }
 
   return (
     <div className="formContainer">
       <div className="inputForm" style={{}}>
-        <input ref={refUser} className="input" placeholder="use name" style={{display: 'block'}}></input>
+        <input ref={refUser} className="input" placeholder="use name" style={{display: loginForm}}></input>
         <br />
-        <input ref={refPass} className="input" placeholder="password"></input>
+        <input ref={refPass} className="input" placeholder="password" style={{display: loginForm}}></input>
       </div>
       <div className="submitButton">
         <button className="button" onClick={login}>
