@@ -4,9 +4,6 @@ const authCheck = require('./../middleware/authCheck');
 const db = require('./../index');
 
 router.use(authCheck);
-// router.use('/', (req, res) => {
-//   res.send('hello, scoreRouter');
-// });
 
 router.get('/records/:date', async (req, res) => {
   const date = req.params.date;
@@ -15,7 +12,9 @@ router.get('/records/:date', async (req, res) => {
     .where({ user_id: Number(userId), create_at: date })
     .first();
   if (!resData) {
-    return res.status(404).send('指定された日付ののレコードが見つかりません');
+    return res
+      .status(404)
+      .json({ data: '指定された日付ののレコードが見つかりません' });
   }
   res.status(200).json({ data: resData });
 });
@@ -24,7 +23,9 @@ router.get('/all_records', async (req, res) => {
   const { userId } = req.cookies;
   const resData = await db('score').where({ user_id: Number(userId) });
   if (resData.length === 0) {
-    return res.status(404).send('指定された日付ののレコードが見つかりません');
+    return res
+      .status(404)
+      .json({ data: '指定された日付ののレコードが見つかりません' });
   }
   res.status(200).json({ data: resData });
 });
@@ -47,7 +48,7 @@ router.post('/', async (req, res) => {
   try {
     res.status(201).json({ data: resData });
   } catch {
-    res.status(400).send('ボディが適切ではありません。');
+    res.status(400).json({ data: 'ボディが適切ではありません。' });
   }
 });
 

@@ -3,20 +3,16 @@ const router = express.Router();
 const crypto = require('crypto');
 const db = require('./../index');
 
-// router.use('/', (req, res) => {
-//   res.send('hello, authRouter');
-// });
-
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
   const user = await db('users').where('user_name', userName).first();
-  if (user.length === 0) {
-    return res.status(404).send('ユーザーが見つかりません');
+  if (!user) {
+    return res.status(404).josn({data:'ユーザーが見つかりません'});
   }
   const hashedPassword = hashPassword(password, user.salt);
 
   if (hashedPassword !== user.hash) {
-    return res.status(404).send('パスワードが違います');
+    return res.status(404).josn({data:'パスワードが違います'});
   }
 
   const sessionId = createSession();
@@ -40,28 +36,28 @@ router.post('/login', async (req, res) => {
       secure: false,
       sameSite: 'Lax',
     });
-
-    res.status(201).json({ data: 'ログイン成功' });
+    res.status(201).json({ data: {userId:user.id, userName:user.userName}
+     });
   } catch {
-    res.status(404).send('何かおかしいです。');
+    res.status(404).josn({data:'何かおかしいです。'});
   }
 });
 
 router.post('/logout', async (req, res) => {
-  const { sessionId, userId, userName } = req.cookies;
+  const {  userId } = req.cookies;
   try {
     await db('users').where('id', userId).update(`session_id`, null);
     res.clearCookie('sessionId', 'userId', 'userName');
-    res.status(201).send('you logged out succesfully!');
+    res.status(201).josn({data:'you logged out succesfully!'});
   } catch {
-    res.status(404).send('cookieの値がおかしいかも');
+    res.status(404).josn({data:'cookieの値がおかしいかも'});
   }
 });
 
 router.post('/new-accounts', async (req, res) => {
   const { userName, password } = req.body;
   if (!userName || !password) {
-    return res.status(404).send('userNameまたはpasswordが受け取れていません。');
+    return res.status(404).josn({data:'userNameまたはpasswordが受け取れていません。'});
   }
   const salt = crypto.randomBytes(6).toString('hex');
   const hashedPassword = hashPassword(password, salt);
@@ -73,7 +69,7 @@ router.post('/new-accounts', async (req, res) => {
     });
     res.status(201).json({ data: userName });
   } catch {
-    res.status(404).send('userNameが重複しているか、何かおかしいです。');
+    res.status(404).josn({data:'userNameが重複しているか、何かおかしいです。'});
   }
 });
 
