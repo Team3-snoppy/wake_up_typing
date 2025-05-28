@@ -7,19 +7,19 @@ import { ThemeProvider } from '@mui/material/styles';
 import Appbar from './Appbar.jsx';
 import theme from '../theme/theme.js';
 
-
 export const loginContext = createContext();
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
-  const [userInfo, setUserInfo] = useState({userId: '', userName: ''});
-
+  const [userInfo, setUserInfo] = useState({ userId: '', userName: '' });
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <Appbar />
-        <loginContext.Provider value={{ isLogin, setIsLogin, userInfo,setUserInfo }}>
+        <loginContext.Provider
+          value={{ isLogin, setIsLogin, userInfo, setUserInfo }}
+        >
           <div className="appContainer">
             <Login />
             <Game />
@@ -27,7 +27,6 @@ function App() {
           </div>
         </loginContext.Provider>
       </ThemeProvider>
-      ;
     </>
   );
 }
