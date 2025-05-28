@@ -11,27 +11,15 @@ function Score() {
 
   async function getScore() {
     const responce = await fetch(`/api/scores/records/${year}-${month}-${day}`);
-    const todayScore = await responce;
-    console.log(responce);
-    console.log(todayScore);
+    const todayScore = await responce.json();
+    setScore(todayScore.data.game_score);
   }
 
   useEffect(() => {
     getScore();
   }, []);
 
-  return (
-    <div className="scorContainer">
-      本日のハイスコア{' '}
-      <u>
-        <b>{score}</b>
-      </u>{' '}
-      pt
-      <button onClick={getScore}>test</button>
-    </div>
-  );
+  return <div className="scorContainer">{score}</div>;
 }
 
 export default Score;
-
-//  /api/scores/records/:date 指定した日付
