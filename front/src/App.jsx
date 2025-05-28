@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState, createContext } from 'react';
 import './App.css';
 import Login from './Login.jsx';
 import Game from './Game.jsx';
@@ -19,7 +19,11 @@ const theme = createTheme({
   },
 });
 
+export const loginContext = createContext();
+
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -35,11 +39,13 @@ function App() {
         </Button>
         <Appbar />
 
-        <div className="appContainer">
-          <Login />
-          <Game />
-          <Score />
-        </div>
+        <loginContext.Provider value={{ isLogin, setIsLogin }}>
+          <div className="appContainer">
+            <Login />
+            <Game />
+            <Score />
+          </div>
+        </loginContext.Provider>
       </ThemeProvider>
       ;
     </>
