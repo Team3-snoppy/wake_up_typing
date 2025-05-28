@@ -20,8 +20,8 @@ function Login() {
 
   return (
     <div className="formContainer">
-      <div className="inputForm">
-        <input ref={refUser} className="input" placeholder="use name"></input>
+      <div className="inputForm" style={{}}>
+        <input ref={refUser} className="input" placeholder="use name" style={{display: 'block'}}></input>
         <br />
         <input ref={refPass} className="input" placeholder="password"></input>
       </div>
