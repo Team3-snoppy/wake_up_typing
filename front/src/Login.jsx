@@ -58,6 +58,8 @@ function Login() {
     })
     .then(res => res.json())
     .then(data => console.log(data));
+    refUser.current.value = '',
+     refPass.current.value = '',
   }
 
   console.log(userInfo);
