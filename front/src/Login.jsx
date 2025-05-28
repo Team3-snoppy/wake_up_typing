@@ -6,9 +6,13 @@ function Login() {
   const refPass = useRef(null);
 
   async function login() {
+    console.log(refUser.current.value,refPass.current.value);
     await fetch('/api/auth/login', {
       method: 'post',
-      body: { userName: refUser, password: refPass },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userName: refUser.current.value, password: refPass.current.value }),
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
