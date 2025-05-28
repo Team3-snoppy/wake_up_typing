@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authCheck = require('./../middleware/authCheck');
-const db = require('./../knex');
+const db = require('./../index');
 
 router.use(authCheck);
 // router.use('/', (req, res) => {
@@ -32,7 +32,7 @@ router.get('/all_records', async (req, res) => {
 router.post('/', async (req, res) => {
   const { gameScore, date } = req.body;
   const { userId } = req.cookies;
-  console.log(gameScore, date,userId);
+  console.log(gameScore, date, userId);
   const resData = await db('score').insert(
     {
       user_id: Number(userId),
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
   try {
     res.status(201).json({ data: resData });
   } catch {
-    res.status(400).send('ボディが適切ではありません。')
+    res.status(400).send('ボディが適切ではありません。');
   }
 });
 

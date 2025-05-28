@@ -1,4 +1,4 @@
-const db = require('./../knex');
+const db = require('./../index');
 
 const authCheck = async (req, res, next) => {
   //リクエストのクッキー情報から、DBのセッションIDと比較。
