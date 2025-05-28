@@ -4,9 +4,7 @@ import {loginContext} from  './App.jsx';
 
 
 function Login() {
-  const {isLogin, setIsLogin} = useContext(loginContext);
-  
-  const [userInfo, setUserInfo] = useState({userId: '', userName: ''});
+  const {isLogin, setIsLogin, userInfo, setUserInfo} = useContext(loginContext);
 
   const refUser = useRef(null);
   const refPass = useRef(null);
