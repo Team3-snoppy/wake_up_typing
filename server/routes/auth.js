@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-const db = require('./../knex');
+const db = require('./../index');
 
 // router.use('/', (req, res) => {
 //   res.send('hello, authRouter');
@@ -48,14 +48,14 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', async (req, res) => {
-    const {sessionId, userId, userName} = req.cookies;
-    try{
-        await db('users').where('id', userId).update(`session_id`, null);
-        res.clearCookie('sessionId','userId', 'userName');
-        res.status(201).send('you logged out succesfully!');
-    }catch{
+  const { sessionId, userId, userName } = req.cookies;
+  try {
+    await db('users').where('id', userId).update(`session_id`, null);
+    res.clearCookie('sessionId', 'userId', 'userName');
+    res.status(201).send('you logged out succesfully!');
+  } catch {
     res.status(404).send('cookieの値がおかしいかも');
-    }
+  }
 });
 
 router.post('/new-accounts', async (req, res) => {
