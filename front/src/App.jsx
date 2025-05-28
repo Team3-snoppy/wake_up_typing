@@ -23,6 +23,7 @@ export const loginContext = createContext();
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({ userId: '', userName: '' });
 
   return (
     <>
@@ -39,7 +40,9 @@ function App() {
         </Button>
         <Appbar />
 
-        <loginContext.Provider value={{ isLogin, setIsLogin }}>
+        <loginContext.Provider
+          value={{ isLogin, setIsLogin, userInfo, setUserInfo }}
+        >
           <div className="appContainer">
             <Login />
             <Game />
@@ -47,7 +50,6 @@ function App() {
           </div>
         </loginContext.Provider>
       </ThemeProvider>
-      ;
     </>
   );
 }

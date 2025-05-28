@@ -18,13 +18,14 @@ function Score() {
     setScore(todayScore.data.game_score);
   }
 
-  useEffect(() => {
+  if (isLogin) {
     getScore();
-  }, [isLogin]);
+  }
 
   return (
     <>
-      <Box>{score}</Box>
+      <Box>本日の最高得点：{score}</Box>
+      {/* <Box sx={}>{score}</Box> */}
     </>
   );
 }
