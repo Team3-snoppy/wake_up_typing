@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { loginContext } from './App';
 import Card from '@mui/material/Card';
-import { fetchGetFn } from './function.js';
+import { fetchWithoutBody } from './function.js';
 
 function Score() {
   const { isLogin } = useContext(loginContext);
@@ -14,7 +14,7 @@ function Score() {
   const day = date.getDate();
 
   async function getScore() {
-    const responce = fetchGetFn(
+    const responce = fetchWithoutBody(
       `/api/scores/records/${year}-${month}-${day}`,
       'get'
     ).then((jsonData) => setScore(jsonData.data.game_score));
