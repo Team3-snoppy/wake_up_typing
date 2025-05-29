@@ -66,18 +66,19 @@ function Game() {
     refArray[randomIndex].current.value = testText[textIndex];
   };
   //入力があったら、正解かどうか確かめて、正解ならスコア＋１して次の問題へ
-  const anser = () => {
-    console.log('typeText:', typeText, 'correctText:', correctText);
+  const answer = () => {
+    console.log('typeText:', textFieldRef.current.value, 'correctText:', correctText);
 
-    if (typeText === correctText) {
+    if (textFieldRef.current.value === correctText) {
       console.log('正解です');
       setCount(count + 1);
       refArray[eleIndex].current.value = '';
       textFieldRef.current.value = '';
       setQuestion();
-    } else {
-      console.log('不正解です');
-    }
+    } 
+    // else {
+    //   console.log('不正解です');
+    // }
   };
 
   const gridEle = new Array(gridNumber).fill('');
@@ -109,18 +110,20 @@ function Game() {
               id="standard-basic"
               label="Type something .."
               variant="standard"
-              onChange={(e) => {
-                setTypeText(e.target.value);
-              }}
+              // onChange={(e) => {
+              //   setTypeText(e.target.value);
+              // }}
+              onChange={answer}
               inputRef={textFieldRef}
+
             />
           </Box>
           <Button variant="contained" color="success" onClick={setQuestion}>
             set
           </Button>
-          <Button variant="outlined" color="success" onClick={anser}>
+          {/* <Button variant="outlined" color="success" onClick={answer}>
             anser
-          </Button>
+          </Button> */}
           {count}
         </CardContent>
       </Card>
