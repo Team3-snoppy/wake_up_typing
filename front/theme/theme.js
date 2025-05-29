@@ -14,6 +14,9 @@ const theme = createTheme({
         disabled: 'black'
       }
     },
+    typography: {
+      fontFamily: ["Roboto", "M PLUS Rounded 1c"].join(","),
+    },
   });
 
   export default theme
