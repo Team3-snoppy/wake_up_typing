@@ -5,6 +5,7 @@ const PORT = 3000;
 const app = express();
 const authRouter = require('./routes/auth');
 const scoreRouter = require('./routes/score');
+const wordRouter = require('./routes/word');
 const path = require('path');
 
 app.use(express.static('../front/dist'));
@@ -14,6 +15,7 @@ app.use(cookieParser()); // form からのリクエストを受けるために�
 app.use(cors()) //一旦全てを許可
 app.use('/api/auth', authRouter);
 app.use('/api/scores', scoreRouter);
+app.use('/api/words', wordRouter);
 
 app.listen(PORT, () => {
   console.log(`Surver running on port ${PORT}`);
