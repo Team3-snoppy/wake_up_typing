@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import './Game.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const testText = ['as', 'zx', 'qw'];
 
@@ -24,7 +24,28 @@ function Game() {
   const focusTextField = () => {
     textFieldRef.current.focus();
   };
+
+  const gridNumber = 24;
+  const gridSize = 2;
+
+  // const refArray = new Array(gridNumber).fill(useRef(null));
   const refArray = new Array(
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -34,15 +55,15 @@ function Game() {
     useRef(null),
     useRef(null)
   );
-  // console.log(refArray);
+  console.log(refArray);
 
   //問題をセットする。
   const setQuestion = () => {
-    const eleIndex = Math.floor(Math.random() * 8);
+    const randomIndex = Math.floor(Math.random() * gridNumber);
     const textIndex = Math.floor(Math.random() * 3);
-    setEleIndex(eleIndex);
+    setEleIndex(randomIndex);
     setCorrectText(testText[textIndex]);
-    refArray[eleIndex].current.value = testText[textIndex];
+    refArray[randomIndex].current.value = testText[textIndex];
   };
   //入力があったら、正解かどうか確かめて、正解ならスコア＋１して次の問題へ
   const anser = () => {
@@ -59,111 +80,51 @@ function Game() {
     }
   };
 
+  const gridEle = new Array(gridNumber).fill('');
+
   return (
-    <div className="gameContainer" onMouseOver={focusTextField}>
-      <Container maxWidth="xl">
-        <Card variant="outlined">
-          card
-          <CardContent>
-            <Grid container spacing={0}>
-              <Grid size={3} >
+    // <div className="gameContainer" onMouseOver={focusTextField}>
+    <Container sx={{ mb: '10px' }} maxWidth="xl" onMouseOver={focusTextField}>
+      <Card variant="outlined">
+        card
+        <CardContent>
+          <Grid container spacing={0}>
+            {gridEle.map((ele, i) => (
+              <Grid key={i} size={gridSize}>
                 <TextField
+                  disabled
                   variant="standard"
                   type="text"
-                  inputRef={refArray['0']}
+                  inputRef={refArray[i]}
                 >
                   size=3
                 </TextField>
               </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['1']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['2']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['3']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['4']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['5']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['6']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-              <Grid size={3} >
-                <TextField
-                  variant="standard"
-                  type="text"
-                  inputRef={refArray['7']}
-                >
-                  size=3
-                </TextField>
-              </Grid>
-            </Grid>
-            <Box>
-              <TextField
-                autoFocus
-                fullWidth
-                id="standard-basic"
-                label="Type sonthing .."
-                variant="standard"
-                onChange={(e) => {
-                  setTypeText(e.target.value);
-                }}
-                inputRef={textFieldRef}
-              />
-            </Box>
-            <Button variant="contained" color="success" onClick={setQuestion}>
-              set
-            </Button>
-            <Button variant="outlined" color="success" onClick={anser}>
-              anser
-            </Button>
-            {count}
-          </CardContent>
-        </Card>
-      </Container>
-      ゲーム画面
-    </div>
+            ))}
+          </Grid>
+          <Box>
+            <TextField
+              autoFocus
+              fullWidth
+              id="standard-basic"
+              label="Type something .."
+              variant="standard"
+              onChange={(e) => {
+                setTypeText(e.target.value);
+              }}
+              inputRef={textFieldRef}
+            />
+          </Box>
+          <Button variant="contained" color="success" onClick={setQuestion}>
+            set
+          </Button>
+          <Button variant="outlined" color="success" onClick={anser}>
+            anser
+          </Button>
+          {count}
+        </CardContent>
+      </Card>
+    </Container>
   );
 }
 
