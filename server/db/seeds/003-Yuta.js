@@ -4,8 +4,8 @@
  */
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
+  await knex('words').del()
+  await knex('words').insert([
     {user_id: 2, word: 'こいつ、動くぞ！'},
     {user_id: 2, word: '親父にもぶたれたことないのに！'},
     {user_id: 2, word: '僕が一番ガンダムを上手く使えるんだ。'},
