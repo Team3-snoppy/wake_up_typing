@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
 import './Login.css';
 import { loginContext } from './App.jsx';
-import { fetchFn } from './function.js';
+import { fetchWithBody, fetchWithoutBody } from './function.js';
 
 function Login() {
   const { isLogin, setIsLogin, userInfo, setUserInfo } =
@@ -11,7 +11,7 @@ function Login() {
   const refPass = useRef(null);
 
   async function login() {
-    fetchFn('/api/auth/login', 'post', {
+    fetchWithBody('/api/auth/login', 'post', {
       userName: refUser.current.value,
       password: refPass.current.value,
     }).then(({ data }) => {
@@ -24,7 +24,7 @@ function Login() {
   }
 
   async function logout() {
-    fetchFn('/api/auth/logout', 'post').then((data) => {
+    fetchWithoutBody('/api/auth/logout', 'post').then((data) => {
       if (data.data === 'you logged out succesfully!') {
         setIsLogin(false);
         setUserInfo({ userId: '', userName: '' });
@@ -33,7 +33,7 @@ function Login() {
   }
 
   async function signUp() {
-    fetchFn('/api/auth/new-accounts', 'post', {
+    fetchWithBody('/api/auth/new-accounts', 'post', {
       userName: refUser.current.value,
       password: refPass.current.value,
     }).then((data) => console.log(data));

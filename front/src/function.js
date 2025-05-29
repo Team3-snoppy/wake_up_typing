@@ -1,4 +1,4 @@
-export async function fetchFn(url, method, body = null) {
+export async function fetchWithBody(url, method, body = {}) {
   return await fetch(url, {
     method: method,
     headers: {
@@ -8,7 +8,7 @@ export async function fetchFn(url, method, body = null) {
   }).then((res) => res.json());
 }
 
-export async function fetchGetFn(url, method) {
+export async function fetchWithoutBody(url, method) {
   return await fetch(url, {
     method: method,
   }).then((res) => res.json());
