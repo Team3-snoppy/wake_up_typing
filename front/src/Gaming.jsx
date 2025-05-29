@@ -4,34 +4,40 @@ import { loginContext } from './App.jsx';
 import { fetchWithBody, fetchWithoutBody } from './function.js';
 
 const Gaming = ({ setGameState, gameState, setCount, count }) => {
-  const [testText, setTestText] = useState([]);
-
   const { isLogin, setIsLogin, userInfo, setUserInfo } =
     useContext(loginContext);
 
   const [eleIndex, setEleIndex] = useState(0);
   const [correctText, setCorrectText] = useState('');
-  useEffect(() => {
-    if (gameState === 1) {
-      setQuestion();
-      setTimeout(() => {
-        console.log('3秒経過');
-        setGameState(2);
-      }, 10000);
-    } else if (gameState === 2) {
-      //スコアと今日の日付をポスト
-    }
-  }, [gameState]);
-
+  
   const defaultText = ['as', 'zx', 'qw'];
 
+  let testText = [];
+
   if (isLogin) {
-    fetchWithoutBody('/api/words/personal', 'get').then((data) =>
-      setTestText(data.data.map((item) => item.word))
-    );
+    fetchWithoutBody('/api/words/personal', 'get').then((data) => {
+      console.log(data.data);
+      testText = data.data.map((item) => item.word);
+      console.log(testText);
+    });
   } else {
-    setTestText(defaultText);
+    testText = defaultText;
   }
+
+  useEffect(() => {
+    if (testText.length !== 0) {
+      if (gameState === 1) {
+        setQuestion();
+        setTimeout(() => {
+          console.log('3秒経過');
+          setGameState(2);
+        }, 10000);
+      } else if (gameState === 2) {
+        //スコアと今日の日付をポスト
+      }
+    }
+  }, [gameState, testText]);
+
 
   const gridNumber = 24;
   const gridSize = 2;

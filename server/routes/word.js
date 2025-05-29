@@ -3,7 +3,7 @@ const router = express.Router();
 const authCheck = require('./../middleware/authCheck');
 const db = require('./../index');
 
-// router.use(authCheck);
+router.use(authCheck);
 
 router.get('/personal', async (req, res) => {
   const { userId } = req.cookies;
