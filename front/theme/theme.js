@@ -10,6 +10,9 @@ const theme = createTheme({
       secondary: {
         main: blue[500],
       },
+      text: {
+        disabled: 'black'
+      }
     },
   });
 
