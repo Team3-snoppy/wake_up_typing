@@ -17,7 +17,12 @@ function Score() {
     const responce = fetchWithoutBody(
       `/api/scores/records/${year}-${month}-${day}`,
       'get'
-    ).then((jsonData) => setScore(jsonData.data.game_score));
+    ).then((jsonData) => {
+      const maxScore = jsonData.data.reduce((accumulator, currentValue) => {
+        return Math.max(accumulator, currentValue.game_score);
+      }, 0);
+      setScore(maxScore);
+    });
   }
 
   if (isLogin) {
