@@ -1,22 +1,43 @@
 import { Box, Button, Card, CardContent, Grid, TextField } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-
-const testText = ['as', 'zx', 'qw'];
+import { useEffect, useRef, useState, useContext } from 'react';
+import { loginContext } from './App.jsx';
+import { fetchWithBody, fetchWithoutBody } from './function.js';
 
 const Gaming = ({ setGameState, gameState, setCount, count }) => {
+  const { isLogin, setIsLogin, userInfo, setUserInfo } =
+    useContext(loginContext);
+
   const [eleIndex, setEleIndex] = useState(0);
   const [correctText, setCorrectText] = useState('');
+  
+  const defaultText = ['as', 'zx', 'qw'];
+
+  let testText = [];
+
+  if (isLogin) {
+    fetchWithoutBody('/api/words/personal', 'get').then((data) => {
+      console.log(data.data);
+      testText = data.data.map((item) => item.word);
+      console.log(testText);
+    });
+  } else {
+    testText = defaultText;
+  }
+
   useEffect(() => {
-    if (gameState === 1) {
-      setQuestion();
-      setTimeout(() => {
-        console.log('3秒経過');
-        setGameState(2);
-      }, 10000);
-    } else if (gameState === 2) {
-      //スコアと今日の日付をポスト
+    if (testText.length !== 0) {
+      if (gameState === 1) {
+        setQuestion();
+        setTimeout(() => {
+          console.log('3秒経過');
+          setGameState(2);
+        }, 10000);
+      } else if (gameState === 2) {
+        //スコアと今日の日付をポスト
+      }
     }
-  }, [gameState]);
+  }, [gameState, testText]);
+
 
   const gridNumber = 24;
   const gridSize = 2;
@@ -58,7 +79,7 @@ const Gaming = ({ setGameState, gameState, setCount, count }) => {
   //問題をセットする。
   const setQuestion = () => {
     const randomIndex = Math.floor(Math.random() * gridNumber);
-    const textIndex = Math.floor(Math.random() * 3);
+    const textIndex = Math.floor(Math.random() * testText.length);
     setEleIndex(randomIndex);
     setCorrectText(testText[textIndex]);
     refArray[randomIndex].current.value = testText[textIndex];
