@@ -22,7 +22,7 @@ function Game() {
           count={count}
         />
       )}
-      {gameState === 2 && <GameEnd count={count} />}
+      {gameState === 2 && <GameEnd count={count} setGameState={setGameState} />}
     </Container>
   );
 }

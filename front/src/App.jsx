@@ -12,13 +12,21 @@ export const loginContext = createContext();
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({ userId: '', userName: '' });
+  const [dayScores, setDayScores] = useState([]);
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <Appbar />
         <loginContext.Provider
-          value={{ isLogin, setIsLogin, userInfo, setUserInfo }}
+          value={{
+            isLogin,
+            setIsLogin,
+            userInfo,
+            setUserInfo,
+            dayScores,
+            setDayScores,
+          }}
         >
           <div className="appContainer">
             <Login />

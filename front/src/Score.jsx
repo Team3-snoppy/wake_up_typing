@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { loginContext } from './App';
 import Card from '@mui/material/Card';
 import { fetchWithoutBody } from './function.js';
 
 function Score() {
-  const { isLogin } = useContext(loginContext);
+  const { isLogin, setDayScores } = useContext(loginContext);
 
-  const [score, setScore] = useState(0);
+  const [maxScore, setMaxScore] = useState(0);
 
   const date = new Date();
   const year = date.getFullYear();
@@ -14,15 +14,15 @@ function Score() {
   const day = date.getDate();
 
   async function getScore() {
-    const responce = fetchWithoutBody(
-      `/api/scores/records/${year}-${month}-${day}`,
-      'get'
-    ).then((jsonData) => {
-      const maxScore = jsonData.data.reduce((accumulator, currentValue) => {
-        return Math.max(accumulator, currentValue.game_score);
-      }, 0);
-      setScore(maxScore);
-    });
+    fetchWithoutBody(`/api/scores/records/${year}-${month}-${day}`, 'get').then(
+      (jsonData) => {
+        setDayScores(jsonData);
+        const maxScore = jsonData.data.reduce((accumulator, currentValue) => {
+          return Math.max(accumulator, currentValue.game_score);
+        }, 0);
+        setMaxScore(maxScore);
+      }
+    );
   }
 
   if (isLogin) {
@@ -31,7 +31,7 @@ function Score() {
 
   return (
     <>
-      <Card>Highest score today：{score}</Card>
+      <Card>Highest score today：{maxScore}</Card>
     </>
   );
 }
