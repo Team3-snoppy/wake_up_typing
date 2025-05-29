@@ -4,43 +4,38 @@ import { loginContext } from './App.jsx';
 import { fetchWithBody, fetchWithoutBody } from './function.js';
 
 const Gaming = ({ setGameState, gameState, setCount, count }) => {
-  const { isLogin, setIsLogin, userInfo, setUserInfo } =
-    useContext(loginContext);
+  const { isLogin } = useContext(loginContext);
+  const [testText, setTestText] =useState([])
 
   const [eleIndex, setEleIndex] = useState(0);
   const [correctText, setCorrectText] = useState('');
-  
+
   const defaultText = ['as', 'zx', 'qw'];
 
-  let testText = [];
-
-  if (isLogin) {
+  if (isLogin && testText.length === 0) {
     fetchWithoutBody('/api/words/personal', 'get').then((data) => {
-      console.log(data.data);
-      testText = data.data.map((item) => item.word);
-      console.log(testText);
+      setTestText(data.data.map((item) => item.word));
     });
-  } else {
-    testText = defaultText;
+  } else if(!isLogin && testText.length === 0){
+    setTestText(defaultText);
   }
 
   useEffect(() => {
     if (testText.length !== 0) {
-      if (gameState === 1) {
-        setQuestion();
-        setTimeout(() => {
-          console.log('3秒経過');
-          setGameState(2);
-        }, 10000);
-      } else if (gameState === 2) {
-        //スコアと今日の日付をポスト
-      }
+    if (gameState === 1) {
+    setQuestion();
+    setTimeout(() => {
+      console.log('3秒経過');
+      setGameState(2);
+    }, 30000);
+    } else if (gameState === 2) {
+      //スコアと今日の日付をポスト
     }
-  }, [gameState, testText]);
+    }
+  }, [testText]);
 
-
-  const gridNumber = 24;
-  const gridSize = 2;
+  const gridNumber = 18;
+  const gridSize = 4;
 
   const textFieldRef = useRef(null);
 
@@ -134,10 +129,10 @@ const Gaming = ({ setGameState, gameState, setCount, count }) => {
             inputRef={textFieldRef}
           />
         </Box>
-        <Button variant="contained" color="success" onClick={setQuestion}>
+        {/* <Button variant="contained" color="success" onClick={setQuestion}>
           set
-        </Button>
-        {count}
+        </Button> */}
+        {count}pt
       </CardContent>
     </Card>
   );
