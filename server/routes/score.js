@@ -9,8 +9,7 @@ router.get('/records/:date', async (req, res) => {
   const date = req.params.date;
   const { userId } = req.cookies;
   const resData = await db('score')
-    .where({ user_id: Number(userId), create_at: date })
-    .first();
+    .where({ user_id: Number(userId), create_at: date });
   if (!resData) {
     return res
       .status(404)
