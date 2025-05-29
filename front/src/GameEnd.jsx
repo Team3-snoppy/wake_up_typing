@@ -4,6 +4,7 @@ import { useEffect, useContext } from 'react';
 import { loginContext } from './App';
 
 const GameEnd = ({ count, setGameState }) => {
+  //まだ
   const { dayScores } = useContext(loginContext);
   useEffect(() => {
     fetchWithBody('/api/scores', 'post', {
