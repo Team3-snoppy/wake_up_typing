@@ -15,11 +15,26 @@ exports.seed = async function (knex) {
   }
 
   const testSalt = crypto.randomBytes(6).toString('hex');
-  const testHashedPassword = hashPassword('password', testSalt);
+  const testHashedPassword = hashPassword('pass', testSalt);
 
   await knex('users').insert([
     {
-      user_name: 'testuser',
+      user_name: 'test',
+      salt: testSalt,
+      hash: testHashedPassword,
+    },
+    {
+      user_name: 'yuta',
+      salt: testSalt,
+      hash: testHashedPassword,
+    },
+    {
+      user_name: 'wentz',
+      salt: testSalt,
+      hash: testHashedPassword,
+    },
+    {
+      user_name: 'kito',
       salt: testSalt,
       hash: testHashedPassword,
     },
