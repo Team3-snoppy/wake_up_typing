@@ -17,9 +17,10 @@ router.get('/all_records', async (req, res) => {
 router.post('/', async (req, res) => {
   const { sleepTime, date } = req.body;
   const { userId } = req.cookies;
+  console.log(userId);
   const resData = await db('sleeps').insert({
     user_id: Number(userId),
-    game_score: sleepTime,
+    sleep_time: sleepTime,
     create_at: date,
   });
   try {
@@ -28,3 +29,5 @@ router.post('/', async (req, res) => {
     res.status(400).json({ data: 'ボディが適切ではありません。' });
   }
 });
+
+module.exports = router;
