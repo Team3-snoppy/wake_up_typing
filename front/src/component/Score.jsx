@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
-import { loginContext } from './App';
+import { loginContext } from '../App';
 import Card from '@mui/material/Card';
-import { fetchWithoutBody } from './function.js';
+import { fetchWithoutBody } from '../function.js';
 
 function Score() {
   const { isLogin, setDayScores } = useContext(loginContext);

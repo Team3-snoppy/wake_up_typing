@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
 import './Login.css';
-import { loginContext } from './App.jsx';
-import { fetchWithBody } from './function.js';
+import { loginContext } from '../App.jsx';
+import { fetchWithBody } from '../function.js';
 import {
   Box,
   Button,
