@@ -5,10 +5,10 @@ const PORT = 3000;
 const app = express();
 const authRouter = require('./routes/auth');
 const scoreRouter = require('./routes/score');
-
 const sleepsRouter = require('./routes/sleep');
-
+const recordsRouter = require('./routes/record');
 const wordRouter = require('./routes/word');
+
 const path = require('path');
 
 
@@ -21,6 +21,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/scores', scoreRouter);
 
 app.use('/api/sleeps', sleepsRouter);
+app.use('/api/records', recordsRouter);
 
 app.use('/api/words', wordRouter);
 

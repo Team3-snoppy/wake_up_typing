@@ -2,32 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authCheck = require('./../middleware/authCheck');
 const db = require('./../index');
-
 router.use(authCheck);
-
-router.get('/records/:date', async (req, res) => {
-  const date = req.params.date;
-  const { userId } = req.cookies;
-  const resData = await db('score')
-    .where({ user_id: Number(userId), create_at: date });
-  if (!resData) {
-    return res
-      .status(404)
-      .json({ data: '指定された日付ののレコードが見つかりません' });
-  }
-  res.status(200).json({ data: resData });
-});
-
-router.get('/all_records', async (req, res) => {
-  const { userId } = req.cookies;
-  const resData = await db('score').where({ user_id: Number(userId) });
-  if (resData.length === 0) {
-    return res
-      .status(404)
-      .json({ data: '指定された日付ののレコードが見つかりません' });
-  }
-  res.status(200).json({ data: resData });
-});
 
 router.post('/', async (req, res) => {
   const { gameScore, date } = req.body;
