@@ -54,7 +54,7 @@ router.post('/logout', authCheck, async (req, res) => {
   }
 });
 
-router.post('/new-accounts', async (req, res) => {
+router.post('/register', async (req, res) => {
   const { userName, password } = req.body;
   if (!userName || !password) {
     return res
