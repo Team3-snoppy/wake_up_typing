@@ -15,7 +15,7 @@ const Appbar = () => {
 		fetchWithoutBody('/api/auth/logout', 'post').then((data) => {
 			if (data.data === 'you logged out succesfully!') {
 				setIsLogin(false);
-				setUserInfo({ userId: '', userName: '' });
+				setUserInfo({ id: '', name: '' });
 				navigate('/');
 			}
 		});
@@ -27,7 +27,7 @@ const Appbar = () => {
 				{/* <Spacer /> */}
 				<VStack>
 					<p>おはよう</p>
-					<p>{userInfo.userName}</p>
+					<p>{userInfo.name}</p>
 				</VStack>
 
 				<Button variant="contained" onClick={logout}>

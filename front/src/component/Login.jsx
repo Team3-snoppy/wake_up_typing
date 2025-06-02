@@ -6,7 +6,6 @@ import { Card, CardHeader, CardBody, Heading, Center, FormControl, Input, Passwo
 import { useNavigate } from 'react-router';
 
 function Login() {
-	const { setIsLogin, setUserInfo } = useContext(loginContext);
 	const navigate = useNavigate();
 
 	const refUser = useRef(null);
@@ -18,7 +17,6 @@ function Login() {
 			userName: refUser.current.value,
 			password: refPass.current.value,
 		});
-		setUserInfo({ userName: refUser.current.value });
 		navigate('/home');
 	}
 

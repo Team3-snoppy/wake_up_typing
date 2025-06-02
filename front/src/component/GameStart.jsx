@@ -1,12 +1,36 @@
 import { Container, Button, RadioCardGroup, RadioCard, Text, Flex, Select, Option } from '@yamada-ui/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
+import { loginContext } from '../App';
+
 const GameStart = ({ setGameState }) => {
-	const gameStart = () => {
-		console.log('🍓 ~ GameStart ~ selectCategory:', selectCategory);
-		console.log('🍓 ~ GameStart ~ sleepHour:', sleepHour);
-		console.log('🍓 ~ GameStart ~ sleepMinutes:', sleepMinutes);
-		console.log('🍓 ~ GameStart ~ getUpHour:', getUpHour);
-		console.log('🍓 ~ GameStart ~ getUpMinutes:', getUpMinutes);
+	const { userInfo } = useContext(loginContext);
+
+	const gameStart = async () => {
+		const sleep = new Date();
+		const getUp = new Date();
+		sleep.setHours(sleepHour, sleepMinutes, 0);
+		if (sleepHour >= 20) {
+			sleep.setDate(sleep.getDate() - 1);
+		}
+		getUp.setHours(getUpHour, getUpMinutes, 0);
+
+		const diff = ((getUp - sleep) / (1000 * 60) / 60).toFixed(1);
+		const date = `${getUp.getFullYear()}-${String(getUp.getMonth() + 1).padStart(2, '0')}-${String(getUp.getDate()).padStart(2, '0')}`;
+		// console.log('🍓 ~ gameStart ~ date:', date);
+
+		await fetch('/api/sleeps/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ sleepTime: diff, date }),
+		});
+
+		// console.log('🍓 ~ GameStart ~ selectCategory:', selectCategory);
+		// console.log('🍓 ~ GameStart ~ sleepHour:', sleepHour);
+		// console.log('🍓 ~ GameStart ~ sleepMinutes:', sleepMinutes);
+		// console.log('🍓 ~ GameStart ~ getUpHour:', getUpHour);
+		// console.log('🍓 ~ GameStart ~ getUpMinutes:', getUpMinutes);
 
 		setGameState(1);
 	};

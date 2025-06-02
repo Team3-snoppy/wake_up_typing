@@ -13,7 +13,7 @@ export const loginContext = createContext();
 
 function App() {
 	const [isLogin, setIsLogin] = useState(false);
-	const [userInfo, setUserInfo] = useState({ userId: '', userName: '' });
+	const [userInfo, setUserInfo] = useState({ id: '', name: '' });
 	const [dayScores, setDayScores] = useState([]);
 
 	return (

@@ -6,7 +6,6 @@ import { Card, CardHeader, CardBody, Heading, Center, FormControl, Input, Passwo
 import { useNavigate } from 'react-router';
 
 function Register() {
-	const { setUserInfo } = useContext(loginContext);
 
 	const navigate = useNavigate();
 
@@ -19,7 +18,6 @@ function Register() {
 			userName: refUser.current.value,
 			password: refPass.current.value,
 		}).then((data) => console.log(data));
-		setUserInfo({ userName: refUser.current.value });
 		navigate('/home');
 	}
 
