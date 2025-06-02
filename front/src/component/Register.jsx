@@ -14,7 +14,7 @@ function Register() {
 	const [visible, setVisible] = useState(false);
 
 	async function register() {
-		fetchWithBody('/api/auth/new-accounts', 'post', {
+		fetchWithBody('/api/auth/register', 'post', {
 			userName: refUser.current.value,
 			password: refPass.current.value,
 		}).then((data) => console.log(data));

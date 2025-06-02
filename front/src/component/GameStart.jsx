@@ -1,10 +1,7 @@
 import { Container, Button, RadioCardGroup, RadioCard, Text, Flex, Select, Option } from '@yamada-ui/react';
-import { useRef, useState, useContext } from 'react';
-import { loginContext } from '../App';
+import { useState } from 'react';
 
 const GameStart = ({ setGameState }) => {
-	const { userInfo } = useContext(loginContext);
-
 	const gameStart = async () => {
 		const sleep = new Date();
 		const getUp = new Date();
@@ -16,7 +13,6 @@ const GameStart = ({ setGameState }) => {
 
 		const diff = ((getUp - sleep) / (1000 * 60) / 60).toFixed(1);
 		const date = `${getUp.getFullYear()}-${String(getUp.getMonth() + 1).padStart(2, '0')}-${String(getUp.getDate()).padStart(2, '0')}`;
-		// console.log('🍓 ~ gameStart ~ date:', date);
 
 		await fetch('/api/sleeps/', {
 			method: 'POST',
@@ -25,13 +21,6 @@ const GameStart = ({ setGameState }) => {
 			},
 			body: JSON.stringify({ sleepTime: diff, date }),
 		});
-
-		// console.log('🍓 ~ GameStart ~ selectCategory:', selectCategory);
-		// console.log('🍓 ~ GameStart ~ sleepHour:', sleepHour);
-		// console.log('🍓 ~ GameStart ~ sleepMinutes:', sleepMinutes);
-		// console.log('🍓 ~ GameStart ~ getUpHour:', getUpHour);
-		// console.log('🍓 ~ GameStart ~ getUpMinutes:', getUpMinutes);
-
 		setGameState(1);
 	};
 	const [selectCategory, setSelectCategory] = useState('');
