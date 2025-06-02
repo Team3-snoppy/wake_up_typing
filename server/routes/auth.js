@@ -1,13 +1,12 @@
 const express = require('express');
-const path = require('path')
-require('dotenv').config({path: path.resolve(__dirname,'../.env')})
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const router = express.Router();
 const crypto = require('crypto');
 const authCheck = require('./../middleware/authCheck');
 const db = require('./../index');
 
 const isProduction = process.env.NODE_ENV === 'production';
-
 
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
@@ -35,28 +34,16 @@ router.post('/login', async (req, res) => {
       sameSite: 'Lax', // クロスサイトリクエスト時のクッキー送信を制御。
       expires: expires_at,
     });
-    // res.cookie('userId', user.id, {
-    //   httpOnly: true,
-    //   secure: false,
-    //   sameSite: 'Lax',
-    // });
-    // res.cookie('userName', userName, {
-    //   httpOnly: true,
-    //   secure: false,
-    //   sameSite: 'Lax',
-    // });
-    res
-      .status(201)
-      .json({ data: "Success login" });
+    res.status(201).json({ data: 'Success login' });
   } catch {
     res.status(404).json({ data: '何かおかしいです。' });
   }
 });
 
-router.post('/logout',authCheck, async (req, res) => {
+router.post('/logout', authCheck, async (req, res) => {
   const sessionId = req.cookies.sessionId;
-  if(!sessionId){
-    return res.status(400).json({data: "sessionIDが見つかりません"})
+  if (!sessionId) {
+    return res.status(400).json({ data: 'sessionIDが見つかりません' });
   }
   try {
     await db('users').where('id', req.user.id).update(`session_id`, null);
@@ -91,9 +78,9 @@ router.post('/new-accounts', async (req, res) => {
       user_name: userName,
       hash: hashedPassword,
       salt: salt,
-      session_id: sessionId
+      session_id: sessionId,
     });
-    res.status(201).json({ data: "Success Create Account" });
+    res.status(201).json({ data: 'Success Create Account' });
   } catch {
     res
       .status(404)
