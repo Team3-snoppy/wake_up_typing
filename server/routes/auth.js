@@ -88,6 +88,12 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.get('/myInfo',authCheck , async (req, res) => {
+  const id = req.user.id
+  const name = req.user.name
+  return res.status(200).json({id,name})
+})
+
 function hashPassword(password, salt) {
   return crypto
     .createHash('sha256')
