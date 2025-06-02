@@ -26,7 +26,7 @@ function Score() {
   }
 
   if (isLogin) {
-    getScore();
+    // getScore();
   }
 
   return (
