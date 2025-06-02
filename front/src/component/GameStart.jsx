@@ -1,4 +1,4 @@
-import { Container, Button, RadioCardGroup, RadioCard, Text } from '@yamada-ui/react';
+import { Container, Button, RadioCardGroup, RadioCard, Text, Flex, Select, OptionGroup, Option } from '@yamada-ui/react';
 
 const GameStart = ({ setGameState }) => {
 	return (
@@ -12,12 +12,14 @@ const GameStart = ({ setGameState }) => {
 					<RadioCard label="ゲーム" value="1" description="FROM,FPS"></RadioCard>
 				</RadioCardGroup>
 			</Container>
-			<Container>
-        <Text>入眠時間</Text>
-      </Container>
-      <Container>
-        <Text>起床時間</Text>
-      </Container>
+			<Flex>
+				<Container>
+					<Text>入眠時間</Text>
+				</Container>
+				<Container>
+					<Text>起床時間</Text>
+				</Container>
+			</Flex>
 
 			<Button variant="solid" onClick={() => setGameState(1)}>
 				game start
