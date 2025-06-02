@@ -1,16 +1,16 @@
 const db = require('./../index');
 
 const authCheck = async (req, res, next) => {
-  //リクエストのクッキー情報から、DBのセッションIDと比較。
-  //合致すれば、next
-  //合致しない場合はエラーを返す
-  const { sessionId, userId } = req.cookies;
-  const user = await db('users').where('id', userId).first();
-  if (user.session_id === sessionId) {
-    next();
-  } else {
-    return res.status(401).json({data:'Authorization, failed'});
+  const sessionId = req.cookies.sessionId;
+  if (!sessionId) {
+    return res.status(401).json({ data: 'ログインしていません' });
   }
+  const user = await db('users').where('session_id', sessionId).first();
+  if (!user) {
+    return res.status(401).json({ data: 'Authorization, failed' });
+  }
+  req.user = { name: user.user_name, id: user.id };
+  next();
 };
 
 module.exports = authCheck;
