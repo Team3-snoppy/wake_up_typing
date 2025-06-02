@@ -1,48 +1,36 @@
 import { useContext, useRef, useState } from 'react';
 import './Login.css';
-import { loginContext } from '../App.jsx';
 import { fetchWithBody } from '../function.js';
+import { loginContext } from '../App.jsx';
 import { Card, CardHeader, CardBody, Heading, Center, FormControl, Input, PasswordInput, Button, Link } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 
-function Login() {
-	const { setIsLogin, setUserInfo } = useContext(loginContext);
+function Register() {
+	const { setUserInfo } = useContext(loginContext);
+
 	const navigate = useNavigate();
 
 	const refUser = useRef(null);
 	const refPass = useRef(null);
 	const [visible, setVisible] = useState(false);
 
-	async function login() {
-		fetchWithBody('/api/auth/login', 'post', {
+	async function register() {
+		fetchWithBody('/api/auth/new-accounts', 'post', {
 			userName: refUser.current.value,
 			password: refPass.current.value,
-		}).then(({ data }) => {
-			console.log(data);
-			if (data.userId) {
-				setIsLogin(true);
-				setUserInfo(data);
-				navigate('/home');
-			}
-		});
+		}).then((data) => console.log(data));
+		setUserInfo({ userName: refUser.current.value });
+		navigate('/home');
 	}
-
-	// async function signUp() {
-	// 	fetchWithBody('/api/auth/new-accounts', 'post', {
-	// 		userName: refUser.current.value,
-	// 		password: refPass.current.value,
-	// 	}).then((data) => console.log(data));
-	// 	refUser.current.value = '';
-	// 	refPass.current.value = '';
-	// }
 
 	return (
 		<>
-			{/* <Center h="100%"> */}
 			<Card bg="white" w="2xl" padding="xl">
-				<CardHeader>
-					<Heading size="md">LOG IN</Heading>
-				</CardHeader>
+				<Center>
+					<CardHeader>
+						<Heading size="md">REGISTER</Heading>
+					</CardHeader>
+				</Center>
 				<CardBody>
 					<FormControl label="ユーザー名" required>
 						<Input type="text" placeholder="ユーザー名を入力してください" ref={refUser} />
@@ -50,15 +38,15 @@ function Login() {
 					<FormControl label="パスワード" required>
 						<PasswordInput type="password" placeholder="パスワードを入力してください" visible={visible} onVisibleChange={setVisible} ref={refPass} />
 					</FormControl>
-					<Button variant="solid" borderRadius="full" w="sm" bgColor="E7674C" color="#444949" fontWeight="bold" type="button" onClick={login}>
-						Log In
-					</Button>
-					<Link onClick={() => navigate('/register')}>CREATE NEW ACCOUNT</Link>
+					<Center>
+						<Button variant="solid" borderRadius="full" w="sm" bgColor="E7674C" color="#444949" fontWeight="bold" type="button" onClick={register}>
+							CREATE
+						</Button>
+					</Center>
 				</CardBody>
 			</Card>
-			{/* </Center> */}
 		</>
 	);
 }
 
-export default Login;
+export default Register;
