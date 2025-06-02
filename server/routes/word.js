@@ -5,8 +5,8 @@ const db = require('./../index');
 
 router.use(authCheck);
 
-router.get('/category', async (req, res) => {
-  const {wordID} = req.query
+router.get('/category/:wordID', async (req, res) => {
+  const wordID  = req.params.wordID
   const resData = await db('words').where('category','=', wordID);
   if (resData.length === 0) {
     return res
