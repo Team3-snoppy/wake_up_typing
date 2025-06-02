@@ -17,24 +17,10 @@ function Login() {
 		fetchWithBody('/api/auth/login', 'post', {
 			userName: refUser.current.value,
 			password: refPass.current.value,
-		}).then(({ data }) => {
-			console.log(data);
-			if (data.userId) {
-				setIsLogin(true);
-				setUserInfo(data);
-				navigate('/home');
-			}
 		});
+		setUserInfo({ userName: refUser.current.value });
+		navigate('/home');
 	}
-
-	// async function signUp() {
-	// 	fetchWithBody('/api/auth/new-accounts', 'post', {
-	// 		userName: refUser.current.value,
-	// 		password: refPass.current.value,
-	// 	}).then((data) => console.log(data));
-	// 	refUser.current.value = '';
-	// 	refPass.current.value = '';
-	// }
 
 	return (
 		<>
