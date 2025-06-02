@@ -4,7 +4,7 @@
  */
 exports.seed = async function (knex) {
 	// Deletes ALL existing entries
-	await knex('words').del();
+	// await knex('words').del();
 	await knex('words').insert([
 		{ category: 3, word: 'ペース保って' },
 		{ category: 3, word: 'ラストスパート' },

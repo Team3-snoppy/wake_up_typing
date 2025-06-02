@@ -10,7 +10,9 @@
     "db:seed:make": "npx knex seed:make  --knexfile knexfile.js",
     "db:migrate": "npx knex migrate:latest --knexfile knexfile.js",
     "db:seed": "knex seed:run --knexfile knexfile.js",
-    "db:migrate-rollback-all": "npx knex migrate:rollback --all --knexfile knexfile.js"
+    "db:migrate-rollback-all": "npx knex migrate:rollback --all --knexfile knexfile.js",
+    "db:reset": "npm run db:migrate-rollback-all && npm run db:migrate && npm run db:seed",
+    "build": "npm install && npm run db:reset && cd ../front && npm install && npm run build && rm -rf ../public && cp -r dist ../public"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "knex": "^3.1.0",
