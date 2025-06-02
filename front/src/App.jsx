@@ -15,6 +15,7 @@ function App() {
 	const [isLogin, setIsLogin] = useState(false);
 	const [userInfo, setUserInfo] = useState({ id: '', name: '' });
 	const [dayScores, setDayScores] = useState([]);
+	const [categoryNo, setCategoryNo] = useState();
 
 	return (
 		<>
@@ -26,13 +27,15 @@ function App() {
 					setUserInfo,
 					dayScores,
 					setDayScores,
+					categoryNo,
+					setCategoryNo,
 				}}
 			>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<TopPage />} />
 						<Route path="/login" element={<LoginPage />} />
-            <Route path='/register' element= {<Register />} />
+						<Route path="/register" element={<Register />} />
 						{/* <Route path="/home" element={<ProtectedRouter />}> */}
 						<Route path="/home" element={<GamePage />} />
 						{/* </Route> */}
