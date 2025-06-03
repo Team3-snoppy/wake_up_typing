@@ -2,14 +2,20 @@ import { fetchWithoutBody, fetchWithBody } from '../function';
 import { useEffect, useContext, useState } from 'react';
 import { loginContext } from '../App';
 import { useNavigate } from 'react-router';
-import { Container, Box, Center, Text, Button, SimpleGrid, GridItem, Stat, StatLabel, StatNumber, StatHelperMessage, StatIcon } from '@yamada-ui/react';
+import { Text, Button, SimpleGrid, GridItem, Stat, Image, Heading, Card, Box, Container } from '@yamada-ui/react';
 import Chart from './Chart';
+import img from '../assets/advice.png';
+import { Volume2Icon } from '@yamada-ui/lucide';
+import { HouseIcon } from '@yamada-ui/lucide';
 
 const GameEnd = () => {
 	const navigate = useNavigate();
 	const [ySleepTime, setYSleepTime] = useState(0);
 	const [yScore, setYScore] = useState(0);
 	const [tSleepTime, setTSleepTime] = useState(0);
+	const [advice, setAdvice] = useState('');
+	const [voice, setVoice] = useState(null);
+
 	const { count, setCount } = useContext(loginContext);
 	const yesterdayData = () => {
 		const today = new Date();
@@ -34,8 +40,18 @@ const GameEnd = () => {
 		});
 	};
 
-	const getAdvice = () => {
-		fetchWithBody('/api/gemini', 'post').then((data) => console.log(data));
+	// 本番用
+	// const getAdvice = () => {
+	// 	fetchWithBody('/api/gemini', 'post').then((data) => {
+	// 		setAdvice(data.data);
+	// 		setVoice(data.audioBase64);
+	// 	});
+	// };
+
+	// 試し
+	const data = {
+		data: 'お疲れ様！5月も終盤だね、ラストスパート頑張ろう🔥\n\n睡眠時間を見ると、ちょっと足りてない日もあるみたいで心配だな。タイピングスコアも睡眠不足の日は少し下がる傾向にあるみたいだから、睡眠時間を意識するとパフォーマンスアップに繋がりそう！\n\n特に、7時間以上寝ている日のスコアは安定しているみたい！\n\n睡眠とタイピング、両方意識して、さらにレベルアップしちゃおう！\n',
+		audioBase64: 'fjdksalhfjdkahds;ajdfks;a',
 	};
 
 	useEffect(() => {
@@ -45,8 +61,15 @@ const GameEnd = () => {
 		});
 		todayData();
 		yesterdayData();
-		getAdvice();
+		setAdvice(data.data);
+		setVoice(data.audioBase64);
 	}, []);
+
+	const playVoice = () => {
+		const audio = new Audio();
+		audio.src = `data:audio/wav;base64,${voice}`;
+		audio.play();
+	};
 
 	const backHome = () => {
 		setCount(0);
@@ -55,27 +78,38 @@ const GameEnd = () => {
 
 	return (
 		<>
-			<Box>
+			<Card m="xs" variant="outline" color="#444949">
 				<SimpleGrid w="full" columns={{ base: 2, md: 1 }} gap="md">
 					<GridItem>
-						<Container>
-							<Stat label="TODAY SCORE" number={`${count}pt`} icon={count - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(count - yScore)}pt more than yesterday`} centerContent />
-							<Stat label="TODAY SLEEP" number={`${tSleepTime}h`} icon={tSleepTime - ySleepTime > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(tSleepTime - ySleepTime)}h more than yesterday`} centerContent />
-						</Container>
-						<Container>
+						<Card m="md" variant="outline">
+							<SimpleGrid w="full" columns={{ base: 2, md: 1 }} gap="md">
+								<Stat label="TODAY SCORE" number={`${count}pt`} icon={count - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(count - yScore)}pt more than yesterday`} centerContent />
+								<Stat label="TODAY SLEEP" number={`${tSleepTime}h`} icon={tSleepTime - ySleepTime > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(tSleepTime - ySleepTime)}h more than yesterday`} centerContent />
+							</SimpleGrid>
+						</Card>
+						<Card m="md" variant="outline">
 							<Text>MONTH SCORE</Text>
 							<Chart />
-						</Container>
+						</Card>
 					</GridItem>
 					<GridItem>
-						<Text>ONE POINT ADVICE</Text>
+						<Card m="md" variant="outline">
+							<Heading fontWeight="bold" fontSize="xl">
+								ONE POINT ADVICE
+							</Heading>
+							<Text m="md" textAlign="left" fontSize="xl">
+								{advice}
+							</Text>
+							<Button size="md" marginLeft="auto" marginRight="xs" endIcon={<Volume2Icon />} onClick={playVoice}></Button>
+
+							<Image src={img} alt="person" width="xs" marginLeft="auto" p="md" />
+						</Card>
 						<Container>
-							<Text></Text>
+							<Button bg="#E7674C" color="#444949" marginLeft="auto" size="lg" onClick={backHome} endIcon={<HouseIcon />}></Button>
 						</Container>
 					</GridItem>
 				</SimpleGrid>
-				<Button onClick={backHome}>ホームに戻る</Button>
-			</Box>
+			</Card>
 		</>
 	);
 };
