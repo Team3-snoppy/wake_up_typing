@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
       sameSite: 'Lax', // クロスサイトリクエスト時のクッキー送信を制御。
       expires: expires_at,
     });
-    res.status(201).json({ data: 'Success login' });
+    res.status(200).json({ data: 'Success login' });
   } catch {
     res.status(404).json({ data: '何かおかしいです。' });
   }
@@ -48,7 +48,7 @@ router.post('/logout', authCheck, async (req, res) => {
   try {
     await db('users').where('id', req.user.id).update(`session_id`, null);
     res.clearCookie('sessionId');
-    res.status(201).json({ data: 'you logged out succesfully!' });
+    res.status(200).json({ data: 'you logged out succesfully!' });
   } catch {
     res.status(404).json({ data: 'cookieの値がおかしいかも' });
   }
