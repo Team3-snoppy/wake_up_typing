@@ -34,6 +34,10 @@ const GameEnd = () => {
 		});
 	};
 
+	const getAdvice = () => {
+		fetchWithBody('/api/gemini', 'post').then((data) => console.log(data));
+	};
+
 	useEffect(() => {
 		fetchWithBody('/api/scores', 'post', {
 			gameScore: count,
@@ -41,6 +45,7 @@ const GameEnd = () => {
 		});
 		todayData();
 		yesterdayData();
+		getAdvice();
 	}, []);
 
 	const backHome = () => {
@@ -54,8 +59,8 @@ const GameEnd = () => {
 				<SimpleGrid w="full" columns={{ base: 2, md: 1 }} gap="md">
 					<GridItem>
 						<Container>
-							<Stat label="TODAY SCORE" number={count} icon={count - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(count - yScore)}pt more than yesterday`} centerContent />
-							<Stat label="TODAY SLEEP" number={tSleepTime} icon={tSleepTime - ySleepTime > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(tSleepTime - ySleepTime)}h more than yesterday`} centerContent />
+							<Stat label="TODAY SCORE" number={`${count}pt`} icon={count - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(count - yScore)}pt more than yesterday`} centerContent />
+							<Stat label="TODAY SLEEP" number={`${tSleepTime}h`} icon={tSleepTime - ySleepTime > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(tSleepTime - ySleepTime)}h more than yesterday`} centerContent />
 						</Container>
 						<Container>
 							<Text>MONTH SCORE</Text>
@@ -63,8 +68,9 @@ const GameEnd = () => {
 						</Container>
 					</GridItem>
 					<GridItem>
+						<Text>ONE POINT ADVICE</Text>
 						<Container>
-							<Text>ONE POINT ADVICE</Text>
+							<Text></Text>
 						</Container>
 					</GridItem>
 				</SimpleGrid>
