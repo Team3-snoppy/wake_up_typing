@@ -1,12 +1,16 @@
 import Appbar from '../component/Appbar';
-import Game from '../component/Game';
+import Gaming from '../component/Gaming';
 import Score from '../component/Score';
 
+
+
 const GamePage = () => {
+	
+
 	return (
 		<>
 			<Appbar />
-			<Game />
+			<Gaming />
 			<Score />
 		</>
 	);

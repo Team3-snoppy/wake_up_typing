@@ -34,6 +34,6 @@ exports.seed = async function (knex) {
 		{ category: 2, word: '工程能力' },
 		{ category: 2, word: '品質第一' },
 		{ category: 2, word: '現地現物' },
-		{ category: 2, word: '５Ｓ活動' },
+		{ category: 2, word: '５S活動' },
 	]);
 };
