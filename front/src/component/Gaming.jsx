@@ -23,11 +23,6 @@ const Gaming = () => {
 			setQuestion();
 
 			setTimeout(() => {
-				setDayScores(count);
-				fetchWithBody('/api/scores', 'post', {
-					gameScore: count,
-					date: new Date(),
-				});
 				navigate('/gamescore');
 			}, 30000);
 		}
