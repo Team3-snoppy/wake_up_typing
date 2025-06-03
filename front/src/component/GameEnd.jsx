@@ -1,11 +1,14 @@
-import { Typography, Button } from '@mui/material';
 import { fetchWithBody } from '../function';
 import { useEffect, useContext } from 'react';
 import { loginContext } from '../App';
+import { useNavigate } from 'react-router';
+import { Box, Center, Text, Button } from '@yamada-ui/react';
 
-const GameEnd = ({ count, setGameState }) => {
+const GameEnd = () => {
 	//まだ
-	const { dayScores } = useContext(loginContext);
+
+	const navigate = useNavigate();
+	const { count } = useContext(loginContext);
 	useEffect(() => {
 		fetchWithBody('/api/scores', 'post', {
 			gameScore: count,
@@ -15,9 +18,9 @@ const GameEnd = ({ count, setGameState }) => {
 
 	return (
 		<>
-			<Typography>ゲーム終了</Typography>
-			<Typography>スコア：{count}</Typography>
-			<Button onClick={() => setGameState(0)}>ホームに戻る</Button>
+			<Text>ゲーム終了</Text>
+			<Text>スコア：{count}</Text>
+			<Button onClick={() => navigate('/home')}>ホームに戻る</Button>
 		</>
 	);
 };

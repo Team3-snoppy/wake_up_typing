@@ -2,10 +2,13 @@ import { Container, Button, RadioCardGroup, RadioCard, Text, Flex, Select, Optio
 import { useState, useContext } from 'react';
 import { loginContext } from '../App';
 import { fetchWithBody } from '../function';
+import { useNavigate } from 'react-router';
 
-const GameStart = ({ setGameState }) => {
+const GameStart = () => {
+	const navigate = useNavigate();
 	const { setCategoryNo } = useContext(loginContext);
 	const gameStart = async () => {
+
 		const sleep = new Date();
 		const getUp = new Date();
 		sleep.setHours(sleepHour, sleepMinutes, 0);
@@ -18,16 +21,8 @@ const GameStart = ({ setGameState }) => {
 		const date = `${getUp.getFullYear()}-${String(getUp.getMonth() + 1).padStart(2, '0')}-${String(getUp.getDate()).padStart(2, '0')}`;
 
     fetchWithBody('/api/sleeps/','POST',{ sleepTime: diff, date });
-		// await fetch('/api/sleeps/', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify({ sleepTime: diff, date }),
-		// });
-		setGameState(1);
-	};
-	// const [selectCategory, setSelectCategory] = useState('');
+		navigate("/game");
+};
 	const [sleepHour, setSleepHour] = useState('');
 	const [sleepMinutes, setSleepMinutes] = useState('');
 	const [getUpHour, setGetUpHour] = useState('');

@@ -3,10 +3,12 @@ import { Box, Button, Card, Grid, GridItem, Input } from '@yamada-ui/react';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { loginContext } from '../App.jsx';
 import { fetchWithBody, fetchWithoutBody } from '../function.js';
+import { useNavigate } from 'react-router';
 
-const Gaming = ({ setGameState, gameState, setCount, count }) => {
+const Gaming = () => {
+	const navigate = useNavigate();
 	const [wordArray, setWordArray] = useState([]);
-	const { categoryNo } = useContext(loginContext);
+	const { categoryNo, setDayScores, setCount, count } = useContext(loginContext);
 	const [testText, setTestText] = useState([]);
 
 	const [eleIndex, setEleIndex] = useState(0);
@@ -20,17 +22,18 @@ const Gaming = ({ setGameState, gameState, setCount, count }) => {
 
 	useEffect(() => {
 		if (testText.length !== 0) {
-			if (gameState === 1) {
-				setQuestion();
-				console.log(wordArray);
+			setQuestion();
+			console.log(wordArray);
 
-				setTimeout(() => {
-					console.log('3秒経過');
-					setGameState(2);
-				}, 30000);
-			} else if (gameState === 2) {
-				//スコアと今日の日付をポスト
-			}
+			setTimeout(() => {
+				console.log('3秒経過');
+				setDayScores(count);
+				fetchWithBody('/api/scores', 'post', {
+					gameScore: count,
+					date: new Date(),
+				});
+				navigate('/gamescore');
+			}, 30000);
 		}
 	}, [testText]);
 
@@ -55,19 +58,13 @@ const Gaming = ({ setGameState, gameState, setCount, count }) => {
 	};
 	//入力があったら、正解かどうか確かめて、正解ならスコア＋１して次の問題へ
 	const answer = () => {
-		console.log('typeText:', textFieldRef.current.value, 'correctText:', correctText);
 		if (textFieldRef.current.value === correctText) {
-			console.log('正解です');
 			const score = Math.ceil(correctText.length ** 1.3);
-			console.log("🍓 ~ answer ~ correctText.length:", correctText.length)
-			console.log('🍓 ~ answer ~ score:', score);
 			setCount(count + score);
-			// wordArray[eleIndex].current.value = '';
 			textFieldRef.current.value = '';
 			setQuestion();
 		}
 	};
-	const gridEle = new Array(gridNumber).fill('');
 
 	return (
 		<Card>
