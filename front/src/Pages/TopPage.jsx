@@ -5,8 +5,13 @@ import logo from '../assets/logo.png';
 const TopPage = () => {
   const navigate = useNavigate();
 
-  const startButton = () => {
-    navigate('/login');
+  const startButton = async () => {
+		const res = await fetch('/api/auth/myInfo', { credentials: 'include' });
+      if (res.status === 200) {
+        navigate('/home');
+      }else{
+				navigate('/login');
+			}
   };
 
   return (
