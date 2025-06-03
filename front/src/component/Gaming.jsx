@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router';
 const Gaming = () => {
 	const navigate = useNavigate();
 	const [wordArray, setWordArray] = useState([]);
-	const { categoryNo, setDayScores, setCount, count } = useContext(loginContext);
+	const { categoryNo, dayScores, setDayScores, setCount, count } = useContext(loginContext);
 	const [testText, setTestText] = useState([]);
+	const [finish, setFinish] = useState(false);
+	const countRef = useRef(count);
 
 	const [correctText, setCorrectText] = useState('');
 
@@ -19,13 +21,27 @@ const Gaming = () => {
 	}, []);
 
 	useEffect(() => {
+		countRef.current = count;
+	}, [count]);
+
+	useEffect(() => {
+		let timeoutId = null;
 		if (testText.length !== 0) {
 			setQuestion();
-
-			setTimeout(() => {
+			timeoutId = setTimeout(() => {
+				setDayScores(countRef.current);
+				fetchWithBody('/api/scores', 'post', {
+					gameScore: countRef.current,
+					date: new Date(),
+				});
 				navigate('/gamescore');
 			}, 30000);
 		}
+		return () => {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+		};
 	}, [testText]);
 
 	const gridNumber = 18;

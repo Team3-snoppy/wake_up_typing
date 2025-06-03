@@ -55,10 +55,6 @@ const GameEnd = () => {
 	};
 
 	useEffect(() => {
-		fetchWithBody('/api/scores', 'post', {
-			gameScore: count,
-			date: new Date(),
-		});
 		todayData();
 		yesterdayData();
 		setAdvice(data.data);
