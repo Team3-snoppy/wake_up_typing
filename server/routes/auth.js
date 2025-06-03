@@ -50,7 +50,7 @@ router.post('/logout', authCheck, async (req, res) => {
     res.clearCookie('sessionId');
     res.status(200).json({ data: 'you logged out succesfully!' });
   } catch {
-    res.status(404).json({ data: 'cookieの値がおかしいかも' });
+    res.status(500).json({ data: 'Server Error' });
   }
 });
 
@@ -82,16 +82,25 @@ router.post('/register', async (req, res) => {
     });
     res.status(201).json({ data: 'Success Create Account' });
   } catch {
-    res
-      .status(404)
-      .json({ data: 'userNameが重複しているか、何かおかしいです。' });
+    res.status(404).json({ data: 'userNameが重複しています' });
   }
 });
 
-router.get('/myInfo',authCheck , async (req, res) => {
-  const id = req.user.id
-  const name = req.user.name
-  return res.status(200).json({id,name})
+router.get('/myInfo', authCheck, async (req, res) => {
+  const id = req.user.id;
+  const name = req.user.name;
+  return res.status(200).json({ id, name });
+});
+
+router.get('/findName',async(req,res) =>{
+  const { userName } = req.query;
+  console.log("🍣 ~ auth.js:97 ~ router.get ~ userName:", userName);
+  const user = await db('users').where('user_name', userName).first();
+  if (user) {
+    return res.status(400).json({ data: '同じ名前のユーザーが存在しています' });
+  }else{
+    return res.status(200).json({ data: 'ok' });
+  }
 })
 
 function hashPassword(password, salt) {
