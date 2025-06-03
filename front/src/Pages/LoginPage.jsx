@@ -3,16 +3,14 @@ import { Flex, Center, Image } from '@yamada-ui/react';
 import logo from '../assets/logo.png';
 
 const LoginPage = () => {
-	return (
-		<>
-			<Flex>
-				<Image src={logo} alt="logo" width="md" />
-			</Flex>
-			<Center>
-				<Login />
-			</Center>
-		</>
-	);
+  return (
+    <>
+      <Flex>
+        <Image src={logo} alt="logo" width="md" />
+      </Flex>
+      <Login />
+    </>
+  );
 };
 
 export default LoginPage;
