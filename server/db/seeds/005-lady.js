@@ -21,7 +21,7 @@ exports.seed = async function (knex) {
 		{ category: 3, word: '優勝ですわよ' },
 		{ category: 3, word: 'しんどかわい' },
 		{ category: 3, word: 'はい感謝しか' },
-		{ category: 3, word: 'テンあがる～' },
+		{ category: 3, word: 'テンあがる' },
 		{ category: 3, word: '好きすぎです' },
 		{ category: 3, word: 'マジ助かるわ' },
 		{ category: 3, word: 'それなですわ' },

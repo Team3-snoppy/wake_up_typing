@@ -1,4 +1,4 @@
-import { fetchWithoutBody, fetchWithBody } from '../function';
+import { fetchWithoutBody } from '../function';
 import { useEffect, useContext, useState } from 'react';
 import { loginContext } from '../App';
 import { useNavigate } from 'react-router';
@@ -16,7 +16,7 @@ const GameEnd = () => {
 	const [advice, setAdvice] = useState('');
 	const [voice, setVoice] = useState(null);
 
-	const { count, setCount } = useContext(loginContext);
+	const { setCount, dayScores } = useContext(loginContext);
 	const yesterdayData = () => {
 		const today = new Date();
 		today.setDate(today.getDate() - 1);
@@ -79,7 +79,7 @@ const GameEnd = () => {
 					<GridItem>
 						<Card m="md" variant="outline">
 							<SimpleGrid w="full" columns={{ base: 2, md: 1 }} gap="md">
-								<Stat label="TODAY SCORE" number={`${count}pt`} icon={count - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(count - yScore)}pt more than yesterday`} centerContent />
+								<Stat label="TODAY SCORE" number={`${dayScores}pt`} icon={dayScores - yScore > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(dayScores - yScore)}pt more than yesterday`} centerContent />
 								<Stat label="TODAY SLEEP" number={`${tSleepTime}h`} icon={tSleepTime - ySleepTime > 0 ? 'increase' : 'decrease'} helperMessage={`${Math.abs(tSleepTime - ySleepTime)}h more than yesterday`} centerContent />
 							</SimpleGrid>
 						</Card>
