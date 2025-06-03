@@ -1,11 +1,9 @@
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
 import { Box, Button, Center, Image, VStack } from '@yamada-ui/react';
 import logo from '../assets/logo.png';
 
 const TopPage = () => {
 	const navigate = useNavigate();
-	// const [start, setStart] = useState(false);
 
 	const startButton = () => {
 		navigate('/login');

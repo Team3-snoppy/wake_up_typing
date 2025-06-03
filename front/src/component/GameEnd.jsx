@@ -1,14 +1,16 @@
-import { fetchWithBody } from '../function';
+import { fetchWithoutBody, fetchWithBody } from '../function';
 import { useEffect, useContext } from 'react';
 import { loginContext } from '../App';
 import { useNavigate } from 'react-router';
-import { Box, Center, Text, Button } from '@yamada-ui/react';
+import { Container, Box, Center, Text, Button, SimpleGrid, GridItem } from '@yamada-ui/react';
 
 const GameEnd = () => {
-	//まだ
-
 	const navigate = useNavigate();
-	const { count } = useContext(loginContext);
+	const { count, setCount } = useContext(loginContext);
+	const yesterdayData = () => {
+		fetchWithoutBody('/api/');
+	};
+
 	useEffect(() => {
 		fetchWithBody('/api/scores', 'post', {
 			gameScore: count,
@@ -16,11 +18,31 @@ const GameEnd = () => {
 		});
 	}, []);
 
+	const backHome = () => {
+		setCount(0);
+		navigate('/home');
+	};
+
 	return (
 		<>
-			<Text>ゲーム終了</Text>
-			<Text>スコア：{count}</Text>
-			<Button onClick={() => navigate('/home')}>ホームに戻る</Button>
+			<Box>
+				<SimpleGrid w="full" columns={{ base: 2, md: 1 }} gap="md">
+					<GridItem>
+						<Container>
+							<Text>TODAY SCORE</Text>
+						</Container>
+						<Container>
+							<Text>MONTH SCORE</Text>
+						</Container>
+					</GridItem>
+					<GridItem>
+						<Container>
+							<Text>ONE POINT ADVICE</Text>
+						</Container>
+					</GridItem>
+				</SimpleGrid>
+				<Button onClick={backHome}>ホームに戻る</Button>
+			</Box>
 		</>
 	);
 };

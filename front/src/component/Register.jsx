@@ -1,12 +1,10 @@
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './Login.css';
 import { fetchWithBody } from '../function.js';
-import { loginContext } from '../App.jsx';
 import { Card, CardHeader, CardBody, Heading, Center, FormControl, Input, PasswordInput, Button, Link } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 
 function Register() {
-
 	const navigate = useNavigate();
 
 	const refUser = useRef(null);

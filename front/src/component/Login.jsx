@@ -1,8 +1,7 @@
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './Login.css';
-import { loginContext } from '../App.jsx';
 import { fetchWithBody } from '../function.js';
-import { Card, CardHeader, CardBody, Heading, Center, FormControl, Input, PasswordInput, Button, Link } from '@yamada-ui/react';
+import { Card, CardHeader, CardBody, Heading, FormControl, Input, PasswordInput, Button, Link } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 
 function Login() {
@@ -22,7 +21,6 @@ function Login() {
 
 	return (
 		<>
-			{/* <Center h="100%"> */}
 			<Card bg="white" w="2xl" padding="xl">
 				<CardHeader>
 					<Heading size="md">LOG IN</Heading>
@@ -40,7 +38,6 @@ function Login() {
 					<Link onClick={() => navigate('/register')}>CREATE NEW ACCOUNT</Link>
 				</CardBody>
 			</Card>
-			{/* </Center> */}
 		</>
 	);
 }

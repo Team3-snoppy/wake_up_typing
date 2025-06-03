@@ -1,5 +1,4 @@
-// import { Box, Button, Card, CardContent, Grid, Input } from '@mui/material';
-import { Box, Button, Card, Grid, GridItem, Input } from '@yamada-ui/react';
+import { Box, Card, Grid, GridItem, Input } from '@yamada-ui/react';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { loginContext } from '../App.jsx';
 import { fetchWithBody, fetchWithoutBody } from '../function.js';
@@ -11,7 +10,6 @@ const Gaming = () => {
 	const { categoryNo, setDayScores, setCount, count } = useContext(loginContext);
 	const [testText, setTestText] = useState([]);
 
-	const [eleIndex, setEleIndex] = useState(0);
 	const [correctText, setCorrectText] = useState('');
 
 	useEffect(() => {
@@ -23,10 +21,8 @@ const Gaming = () => {
 	useEffect(() => {
 		if (testText.length !== 0) {
 			setQuestion();
-			console.log(wordArray);
 
 			setTimeout(() => {
-				console.log('3秒経過');
 				setDayScores(count);
 				fetchWithBody('/api/scores', 'post', {
 					gameScore: count,
@@ -41,17 +37,11 @@ const Gaming = () => {
 
 	const textFieldRef = useRef(null);
 
-	const focusTextField = () => {
-		textFieldRef.current.focus();
-	};
-
 	//問題をセットする。
 	const setQuestion = () => {
-		console.log(testText);
 		const booArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		const randomIndex = Math.floor(Math.random() * gridNumber);
 		const textIndex = Math.floor(Math.random() * testText.length);
-		setEleIndex(randomIndex);
 		setCorrectText(testText[textIndex]);
 		booArray[randomIndex] = 1;
 		setWordArray([...booArray]);
@@ -69,7 +59,6 @@ const Gaming = () => {
 	return (
 		<Card>
 			CARD
-			{/* <CardContent> */}
 			<Grid templateColumns="repeat(3,1fr)" gap="md">
 				{wordArray.map((ele, i) => (
 					<GridItem key={i} w="full">
@@ -78,24 +67,9 @@ const Gaming = () => {
 				))}
 			</Grid>
 			<Box>
-				<Input
-					// autoFocus
-					// fullWidth
-					// id="standard-basic"
-					label="Type something .."
-					variant="flushed"
-					// onChange={(e) => {
-					//   setTypeText(e.target.value);
-					// }}
-					onChange={answer}
-					ref={textFieldRef}
-				/>
+				<Input autoFocus size="lg" placeholder="Type something .." variant="flushed" onChange={answer} ref={textFieldRef} />
 			</Box>
-			{/* <Button variant="contained" color="success" onClick={setQuestion}>
-          set
-        </Button> */}
 			{count}pt
-			{/* </CardContent> */}
 		</Card>
 	);
 };

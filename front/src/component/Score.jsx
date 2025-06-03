@@ -1,11 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
-import { loginContext } from '../App';
+import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import { fetchWithoutBody } from '../function.js';
 
 function Score() {
-	const { isLogin, setDayScores } = useContext(loginContext);
-
 	const [maxScore, setMaxScore] = useState(0);
 
 	const date = new Date();
