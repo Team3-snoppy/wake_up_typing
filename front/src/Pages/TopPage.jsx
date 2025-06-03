@@ -3,25 +3,31 @@ import { Box, Button, Center, Image, VStack } from '@yamada-ui/react';
 import logo from '../assets/logo.png';
 
 const TopPage = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const startButton = () => {
-		navigate('/login');
-	};
+  const startButton = () => {
+    navigate('/login');
+  };
 
-	return (
-		<Box w="100vw" h="100%">
-			<Center>
-				<VStack>
-					<Image src={logo} alt="logo" boxSize="max" />
-
-					<Button w="sm" onClick={startButton} borderRadius="full">
-						START
-					</Button>
-				</VStack>
-			</Center>
-		</Box>
-	);
+  return (
+    <Box>
+      <Center flexDirection="column" height="100vh" gap="4xl">
+        <Image src={logo} alt="logo" boxSize="max" />
+        <Button
+          w="sm"
+          onClick={startButton}
+          borderRadius="full"
+          bg="#E7674C"
+          fontWeight="bold"
+					_hover={{
+						bg: "#F39D8A"
+					}}
+        >
+          START
+        </Button>
+      </Center>
+    </Box>
+  );
 };
 
 export default TopPage;
