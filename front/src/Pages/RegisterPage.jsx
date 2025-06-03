@@ -1,18 +1,18 @@
-import Login from '../component/Login';
+import Register from '../component/Register';
 import { Flex, Center, Image } from '@yamada-ui/react';
 import logo from '../assets/logo.png';
 
-const LoginPage = () => {
+const RegisterPage = () => {
 	return (
 		<>
 			<Flex>
 				<Image src={logo} alt="logo" width="md" />
 			</Flex>
 			<Center>
-				<Login />
+				<Register />
 			</Center>
 		</>
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;

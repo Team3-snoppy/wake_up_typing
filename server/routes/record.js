@@ -7,6 +7,7 @@ router.use(authCheck);
 
 // こっちを先に書かないと”month”がパスパラメータ扱いになってエラーとなる
 router.get('/month', async (req, res) => {
+
   const resData = await getMonthData(req);
   if (resData.length === 0) {
     return res.status(404).json({ data: '今月のレコードが見つかりません' });
@@ -41,6 +42,7 @@ router.get('/:date', async (req, res) => {
       .json({ data: '指定された日付のレコードが見つかりません' });
   }
   res.status(200).json({ data: resData });
+
 });
 
 module.exports = router;
