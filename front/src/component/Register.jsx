@@ -47,14 +47,17 @@ function Register() {
 		if(res.ok){
 			setIsInvalidName(false)
 		}else{
-			nameBlur()
+			setIsInvalidName(true);
 		}
   };
   const updatePassword = (e) => {
     setPassword(e.target.value);
   };
   const nameBlur = () => {
-    setIsInvalidName(true);
+		if(!name){
+			setIsInvalidName(true);
+
+		}
   };
   const passwordBlur = () => {
     setIsInvalidPassword(true);
@@ -75,6 +78,11 @@ function Register() {
         setIsInvalidPassword(true);
         return false;
       }
+			if(isInvalidName){
+				alert('ユーザー名を変更してください');
+        setIsInvalidName(true);
+        return false;
+			}
       const res = await fetchWithBody('/api/auth/register', 'post', {
         userName: name,
         password,
