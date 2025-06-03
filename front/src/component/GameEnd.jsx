@@ -3,6 +3,7 @@ import { useEffect, useContext, useState } from 'react';
 import { loginContext } from '../App';
 import { useNavigate } from 'react-router';
 import { Container, Box, Center, Text, Button, SimpleGrid, GridItem, Stat, StatLabel, StatNumber, StatHelperMessage, StatIcon } from '@yamada-ui/react';
+import Chart from './Chart';
 
 const GameEnd = () => {
 	const navigate = useNavigate();
@@ -58,6 +59,7 @@ const GameEnd = () => {
 						</Container>
 						<Container>
 							<Text>MONTH SCORE</Text>
+							<Chart />
 						</Container>
 					</GridItem>
 					<GridItem>
