@@ -1,4 +1,4 @@
-import { Box, Card, Grid, GridItem, Input } from '@yamada-ui/react';
+import { Box, Card, CardBody, Grid, GridItem, Input } from '@yamada-ui/react';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { loginContext } from '../App.jsx';
 import { fetchWithBody, fetchWithoutBody } from '../function.js';
@@ -9,6 +9,7 @@ const Gaming = () => {
 	const [wordArray, setWordArray] = useState([]);
 	const { categoryNo, setDayScores, setCount, count } = useContext(loginContext);
 	const [testText, setTestText] = useState([]);
+	const countRef = useRef(count);
 
 	const [correctText, setCorrectText] = useState('');
 
@@ -19,18 +20,27 @@ const Gaming = () => {
 	}, []);
 
 	useEffect(() => {
+		countRef.current = count;
+	}, [count]);
+
+	useEffect(() => {
+		let timeoutId = null;
 		if (testText.length !== 0) {
 			setQuestion();
-
-			setTimeout(() => {
-				setDayScores(count);
+			timeoutId = setTimeout(() => {
+				setDayScores(countRef.current);
 				fetchWithBody('/api/scores', 'post', {
-					gameScore: count,
+					gameScore: countRef.current,
 					date: new Date(),
 				});
 				navigate('/gamescore');
 			}, 30000);
 		}
+		return () => {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+		};
 	}, [testText]);
 
 	const gridNumber = 18;
@@ -57,17 +67,23 @@ const Gaming = () => {
 	};
 
 	return (
-		<Card>
+		<Card p="md" fontSize="xl" fontWeight="bold" color="#444949" variant="outline">
 			CARD
 			<Grid templateColumns="repeat(3,1fr)" gap="md">
 				{wordArray.map((ele, i) => (
 					<GridItem key={i} w="full">
-						{wordArray[i] ? <Card h="5xs">{correctText}</Card> : <Box h="5xs"></Box>}
+						{wordArray[i] ? (
+							<Card fontWeight="light" h="5xs" color="#444949" variant="outline" marginTop="md">
+								<CardBody  fontSize="xl">{correctText}</CardBody>
+							</Card>
+						) : (
+							<Box h="5xs"></Box>
+						)}
 					</GridItem>
 				))}
 			</Grid>
 			<Box>
-				<Input autoFocus size="lg" placeholder="Type something .." variant="flushed" onChange={answer} ref={textFieldRef} />
+				<Input fontWeight="light" autoFocus size="lg" placeholder="Type something .." variant="flushed" onChange={answer} ref={textFieldRef} />
 			</Box>
 			{count}pt
 		</Card>
