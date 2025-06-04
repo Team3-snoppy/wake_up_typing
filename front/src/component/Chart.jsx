@@ -2,12 +2,16 @@ import React, { PureComponent } from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { fetchWithoutBody } from '../function';
 import { useState, useEffect } from 'react';
+import { Text } from '@yamada-ui/react';
 
 const Chart = () => {
 	const [getData, setGetData] = useState([]);
 	const [data, setData] = useState([]);
-	const getMonth = () => {
-		return fetchWithoutBody('/api/records/month', 'get').then((data) => setGetData(data.data));
+	const getMonth = async() => {
+		const res = await fetchWithoutBody('/api/records/month', 'get')
+		if(res.ok){
+			setGetData(res.data)
+		}
 	};
 
 	useEffect(() => {
@@ -26,7 +30,11 @@ const Chart = () => {
 	}, [getData]);
 
 	return (
-		<ResponsiveContainer width="100%" height={400}>
+		<>
+		{getData.length === 0 ?
+		<Text fontSize='6xl' textAlign='center'>Not Data...</Text>
+		:
+		<ResponsiveContainer width="100%" height='100%'>
 			<ScatterChart
 				margin={{
 					top: 20,
@@ -42,6 +50,8 @@ const Chart = () => {
 				<Scatter name="MONTH SCORE" data={data} fill="#E7674C" />
 			</ScatterChart>
 		</ResponsiveContainer>
+		}
+		</>
 	);
 };
 

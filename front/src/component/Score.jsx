@@ -13,10 +13,12 @@ function Score() {
 	const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date());
 	async function getScore() {
 		const res = await fetchWithoutBody('/api/records/month', 'get')
-		const maxScore = res.data.reduce((accumulator, currentValue) => {
-			return Math.max(accumulator, currentValue.game_score);
-		}, 0);
-		setMaxScore(maxScore);
+		if(res.ok){
+			const maxScore = res.data.reduce((accumulator, currentValue) => {
+				return Math.max(accumulator, currentValue.game_score);
+			}, 0);
+			setMaxScore(maxScore);
+		}
 		
 		// .then((data) => {
 		// 	const maxScore = data.data.reduce((accumulator, currentValue) => {
