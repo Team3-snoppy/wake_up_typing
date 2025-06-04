@@ -24,10 +24,10 @@ function App() {
 		<>
 			<loginContext.Provider
 				value={{
-					isLogin,
-					setIsLogin,
-					userInfo,
-					setUserInfo,
+					// isLogin,
+					// setIsLogin,
+					// userInfo,
+					// setUserInfo,
 					dayScores,
 					setDayScores,
 					categoryNo,
