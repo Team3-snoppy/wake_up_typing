@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 // const cors = require('cors');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 const authRouter = require('./routes/auth');
 const scoreRouter = require('./routes/score');
@@ -14,6 +14,9 @@ const path = require('path');
 
 app.use(express.static(path.join(__dirname, '../public')));
 // app.use(express.static('../front/dist'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
