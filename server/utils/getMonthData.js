@@ -3,6 +3,8 @@ const db = require('./../index');
 
 const getMonthData = async (req) => {
   const userId = req.user.id;
+
+  // #TODO 本番に向けた修正
   // const targetDate = new Date();
   const targetDate = new Date('2025-05-01'); // debug用
 

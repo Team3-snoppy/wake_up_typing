@@ -85,6 +85,7 @@ router.post('/text', async (req, res) => {
     )
   ); // DBから取ってきた日付はUTCになっているのでJSTに変換する
 
+  // #TODO 本番に向けた修正
   // const month = format(new Date(), 'yyyy年M月'); // product
   // const today = format(new Date(), 'yyyy年M月d日'); // product
   const month = format(new Date('2025-05-01'), 'yyyy年M月'); //debug
@@ -98,6 +99,8 @@ router.post('/text', async (req, res) => {
       },
     ],
   };
+
+  // #TODO 本番に向けた修正
   // debug　APIを叩きたくない場合は’true’にする
   if (!true) {
     return res.status(200).json({ data: 'hoge' });
