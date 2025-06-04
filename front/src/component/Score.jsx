@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Text } from '@yamada-ui/react';
+import { Text ,Box, HStack} from '@yamada-ui/react';
 import { fetchWithoutBody } from '../function.js';
 
-function Score() {
+function Score({remainingTime}) {
 	const [maxScore, setMaxScore] = useState(0);
 
 	// const date = new Date();
@@ -33,7 +33,17 @@ function Score() {
 	}, []);
 
 	return (
-			<Text textAlign='right'>{monthName}'s highest score：{maxScore}</Text>
+		<HStack justifyContent='space-between'>
+			<Text
+			color={
+				remainingTime <= 3
+					? 'red.500'
+					: remainingTime <= 10
+					? 'orange.400'
+					: '#444949'
+			}>Count Down：{remainingTime} sec</Text>
+			<Text>{monthName}'s highest score：{maxScore}</Text>
+		</HStack>
 	);
 }
 

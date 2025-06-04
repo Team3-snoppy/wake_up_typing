@@ -30,6 +30,9 @@ const Gaming = () => {
   const [correctText, setCorrectText] = useState('');
   const location = useLocation();
 
+  const COUNT_MS =30;
+  const [remainingTime, setRemainingTime] = useState(COUNT_MS);
+
   useEffect(() => {
     if (!location.state?.fromGame) {
       navigate('/home', { replace: true });
@@ -41,7 +44,7 @@ const Gaming = () => {
           'get'
         );
         setTestText(res.data.map((item) => item.word));
-				const gameCount = localStorage.getItem('gameCount')
+        const gameCount = localStorage.getItem('gameCount');
         if (gameCount === 'true') {
           notice({
             title: 'Notice',
@@ -59,29 +62,42 @@ const Gaming = () => {
   }, [count]);
 
   useEffect(() => {
-    let timeoutId = null;
     if (testText.length !== 0) {
       setQuestion();
-      timeoutId = setTimeout(() => {
-				const gameCount = localStorage.getItem('gameCount')
-        if (gameCount === 'false') {
-					const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
+    }
+  }, [testText]);
+useEffect(()=>{
+	if (remainingTime === 0 && testText.length !== 0) {
+		const gameCount = localStorage.getItem('gameCount');
+		if (gameCount === 'false') {
+			const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
 
-          setDayScores(countRef.current);
-          fetchWithBody('/api/scores', 'post', {
-            gameScore: countRef.current,
-            date: date,
-          });
-        }
-        navigate('/gamescore');
-      }, 30000);
+			setDayScores(countRef.current);
+			fetchWithBody('/api/scores', 'post', {
+				gameScore: countRef.current,
+				date: date,
+			});
+		}
+		navigate('/gamescore');
+	}
+},[remainingTime])
+  useEffect(() => {
+    let timeoutId = null;
+    if (testText.length !== 0 && remainingTime > 0) {
+      // setQuestion();
+			console.log(remainingTime);
+			
+      timeoutId = setTimeout(() => {
+        setRemainingTime((prev) => prev - 1);
+      }, 1000);
+
     }
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
-  }, [testText]);
+  }, [remainingTime,testText]);
 
   const gridNumber = 18;
 
@@ -155,7 +171,7 @@ const Gaming = () => {
           />
         </Box>
         <Text color="#E7674C">{count}pt</Text>
-        <Score />
+        <Score remainingTime={remainingTime} />
       </Card>
     </Box>
   );

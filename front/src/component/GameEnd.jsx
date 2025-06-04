@@ -98,7 +98,7 @@ const GameEnd = () => {
         // setVoice(LLMspeech);
       })();
     }
-    console.log('🍣 ~ GameEnd.jsx:100 ~ LLMspeech:', LLMspeech);
+    // console.log('🍣 ~ GameEnd.jsx:100 ~ LLMspeech:', LLMspeech);
   }, []);
 
   useEffect(() => {
