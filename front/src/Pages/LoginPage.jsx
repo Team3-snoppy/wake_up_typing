@@ -5,7 +5,7 @@ import logo from '../assets/logo.png';
 const LoginPage = () => {
   return (
     <>
-      <Flex>
+      <Flex px="xl">
         <Image src={logo} alt="logo" width="md" />
       </Flex>
       <Login />

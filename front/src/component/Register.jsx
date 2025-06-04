@@ -122,7 +122,7 @@ function Register() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      zIndex="9999"
+      // zIndex="9999"
     >
       <Card bg="white" w="xl" padding="xl" borderRadius="2xl">
         <CardHeader>
