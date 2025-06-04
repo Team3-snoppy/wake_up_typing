@@ -27,14 +27,14 @@ const Gaming = () => {
 		let timeoutId = null;
 		if (testText.length !== 0) {
 			setQuestion();
-			// timeoutId = setTimeout(() => {
-			// 	setDayScores(countRef.current);
-			// 	fetchWithBody('/api/scores', 'post', {
-			// 		gameScore: countRef.current,
-			// 		date: new Date(),
-			// 	});
-			// 	navigate('/gamescore');
-			// }, 30000);
+			timeoutId = setTimeout(() => {
+				setDayScores(countRef.current);
+				fetchWithBody('/api/scores', 'post', {
+					gameScore: countRef.current,
+					date: new Date(),
+				});
+				navigate('/gamescore');
+			}, 30000);
 		}
 		return () => {
 			if (timeoutId) {

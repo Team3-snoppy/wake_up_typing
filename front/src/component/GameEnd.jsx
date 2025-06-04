@@ -22,7 +22,7 @@ const GameEnd = () => {
 		today.setDate(today.getDate() - 1);
 		const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 		fetchWithoutBody(`/api/records/${date}`, 'get').then((data) => {
-			if (data.data === '指定された日付のレコードが見つかりません') {
+			if (!data.ok) {
 				setYSleepTime(0);
 				setYScore(0);
 			} else {
