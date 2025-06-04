@@ -14,6 +14,7 @@ import {
   Box,
   Container,
   HStack,
+  Tooltip,
 } from '@yamada-ui/react';
 import Chart from './Chart';
 import img from '../assets/advice.png';
@@ -93,10 +94,12 @@ const GameEnd = () => {
   }, []);
 
   useEffect(() => {
+		localStorage.setItem('gameCount',true)
     setAdvice(LLMtext);
   }, [LLMtext]);
 
   useEffect(() => {
+		localStorage.setItem('gameCount',true)
     setVoice(LLMspeech);
   }, [LLMspeech]);
 
@@ -110,7 +113,21 @@ const GameEnd = () => {
     setCount(0);
     navigate('/home');
   };
-
+  const button = (
+    <Button
+      size="md"
+      marginLeft="auto"
+      marginRight="xs"
+      endIcon={<Volume2Icon />}
+      loading={isLoad}
+      disabled={!LLMspeech}
+      loadingText="Loading..."
+      loadingPlacement="end"
+      loadingIcon="grid"
+      onClick={playVoice}
+      variant="outline"
+    ></Button>
+  );
   return (
     <Box display="flex" flexDirection="column" h="100vh">
       <Box px="xl" h="95vh">
@@ -151,24 +168,18 @@ const GameEnd = () => {
                 <Text fontWeight="bold" fontSize="xl" textAlign="center">
                   ONE POINT ADVICE
                 </Text>
-                <Box m="md" h="40%" overflowY="auto" borderRadius='md'>
+                <Box m="md" h="40%" overflowY="auto" borderRadius="md">
                   <Text textAlign="left" fontSize="xl" whiteSpace="pre-wrap">
                     {advice}
                   </Text>
                 </Box>
-                <Button
-                  size="md"
-                  marginLeft="auto"
-                  marginRight="xs"
-                  endIcon={<Volume2Icon />}
-                  loading={isLoad}
-                  disabled={!LLMspeech}
-                  loadingText="Loading..."
-                  loadingPlacement="end"
-                  loadingIcon="grid"
-                  onClick={playVoice}
-                  variant="outline"
-                ></Button>
+								{LLMspeech ?
+									button
+							:
+                <Tooltip label="読み上げ機能は現在利用できません">
+                  {button}
+                </Tooltip>
+								}
                 <Image
                   src={img}
                   alt="person"
