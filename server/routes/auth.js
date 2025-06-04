@@ -82,7 +82,7 @@ router.post('/register', async (req, res) => {
     });
     res.status(201).json({ data: 'Success Create Account' });
   } catch {
-    res.status(404).json({ data: 'userNameが重複しています' });
+    res.status(404).json({ data: 'すでに存在する名前です' });
   }
 });
 
@@ -94,7 +94,6 @@ router.get('/myInfo', authCheck, async (req, res) => {
 
 router.get('/findName',async(req,res) =>{
   const { userName } = req.query;
-  console.log("🍣 ~ auth.js:97 ~ router.get ~ userName:", userName);
   const user = await db('users').where('user_name', userName).first();
   if (user) {
     return res.status(400).json({ data: '同じ名前のユーザーが存在しています' });
