@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import { loginContext } from '../App.jsx';
 import { fetchWithBody, fetchWithoutBody } from '../function.js';
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 function SleepSelect() {
   const { isLogin } = useContext(loginContext);
@@ -25,9 +27,10 @@ function SleepSelect() {
   }
 
   async function postSleep() {
+    const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
     fetchWithBody('/api/sleeps/', 'post', {
       sleepTime: timeValue,
-      date: new Date(),
+      date: date,
     });
     getSleep();
   }
