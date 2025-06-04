@@ -1,22 +1,29 @@
 import { useState, useEffect } from 'react';
-import Card from '@mui/material/Card';
+import { Text } from '@yamada-ui/react';
 import { fetchWithoutBody } from '../function.js';
 
 function Score() {
 	const [maxScore, setMaxScore] = useState(0);
 
-	const date = new Date();
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
+	// const date = new Date();
+	// const year = date.getFullYear();
+	// const month = date.getMonth() + 1;
+	// const day = date.getDate();
 
+	const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date());
 	async function getScore() {
-		fetchWithoutBody('/api/records/month', 'get').then((data) => {
-			const maxScore = data.data.reduce((accumulator, currentValue) => {
-				return Math.max(accumulator, currentValue.game_score);
-			}, 0);
-			setMaxScore(maxScore);
-		});
+		const res = await fetchWithoutBody('/api/records/month', 'get')
+		const maxScore = res.data.reduce((accumulator, currentValue) => {
+			return Math.max(accumulator, currentValue.game_score);
+		}, 0);
+		setMaxScore(maxScore);
+		
+		// .then((data) => {
+		// 	const maxScore = data.data.reduce((accumulator, currentValue) => {
+		// 		return Math.max(accumulator, currentValue.game_score);
+		// 	}, 0);
+		// 	setMaxScore(maxScore);
+		// });
 	}
 
 	useEffect(() => {
@@ -24,9 +31,7 @@ function Score() {
 	}, []);
 
 	return (
-		<>
-			<Card>Highest score month：{maxScore}</Card>
-		</>
+			<Text textAlign='right'>{monthName}'s highest score：{maxScore}</Text>
 	);
 }
 
