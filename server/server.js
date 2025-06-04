@@ -8,14 +8,38 @@ const scoreRouter = require('./routes/score');
 const sleepsRouter = require('./routes/sleep');
 const recordsRouter = require('./routes/record');
 const wordRouter = require('./routes/word');
-const geminiRouter = require('./routes/gemini.js')
+const geminiRouter = require('./routes/gemini.js');
 
 const path = require('path');
 
-app.use(express.static('../front/dist'));
+app.use(express.static(path.join(__dirname, '../public')));
+// app.use(express.static('../front/dist'));
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+app.get('/game', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+app.get('/gamescore', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api') && req.headers.accept.includes('text/html')) {
+    return res.redirect('/');
+  }
+  next();
+});
 app.use('/api/auth', authRouter);
 app.use('/api/scores', scoreRouter);
 app.use('/api/sleeps', sleepsRouter);

@@ -1,5 +1,5 @@
 import { useState, createContext } from 'react';
-import './App.css';
+// import './App.css';
 // import { ThemeProvider } from '@mui/material/styles';
 // import theme from '../theme/theme.js';
 import { BrowserRouter, Routes, Route } from 'react-router';
@@ -24,10 +24,10 @@ function App() {
 		<>
 			<loginContext.Provider
 				value={{
-					isLogin,
-					setIsLogin,
-					userInfo,
-					setUserInfo,
+					// isLogin,
+					// setIsLogin,
+					// userInfo,
+					// setUserInfo,
 					dayScores,
 					setDayScores,
 					categoryNo,
