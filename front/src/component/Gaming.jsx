@@ -6,48 +6,52 @@ import {
   GridItem,
   Input,
   useNotice,
-	Text
+  Text,
 } from '@yamada-ui/react';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { loginContext } from '../App.jsx';
 import { fetchWithBody, fetchWithoutBody } from '../function.js';
 import { useLocation, useNavigate } from 'react-router';
 import Score from '../component/Score';
-
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 const Gaming = () => {
   const notice = useNotice({ limit: 1 });
   const navigate = useNavigate();
   const [wordArray, setWordArray] = useState([]);
-  const { categoryNo, setDayScores, setCount, count, gameCount } =
+  const { categoryNo, setDayScores, setCount, count } =
     useContext(loginContext);
+  // const { categoryNo, setDayScores, setCount, count, gameCount } =
+  //   useContext(loginContext);
   const [testText, setTestText] = useState([]);
   const countRef = useRef(count);
 
   const [correctText, setCorrectText] = useState('');
-	const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
-		if(!location.state?.fromGame){
-			navigate('/home',{replace:true})
-		}else{
-			window.history.replaceState({}, '');
-			(async () => {
-				const res = await fetchWithoutBody(
-					`/api/words/category/${categoryNo}`,
-					'get'
-				);
-				setTestText(res.data.map((item) => item.word));
-				if (gameCount) {
-					notice({
-						title: 'Notice',
-						description: '本日プレイ済みのためレコードは記録されません。',
-						duration: 3000,
-						status: 'info',
-					});
-				}
-			})();
-		}
+    if (!location.state?.fromGame) {
+      navigate('/home', { replace: true });
+    } else {
+      window.history.replaceState({}, '');
+      (async () => {
+        const res = await fetchWithoutBody(
+          `/api/words/category/${categoryNo}`,
+          'get'
+        );
+        setTestText(res.data.map((item) => item.word));
+				const gameCount = localStorage.getItem('gameCount')
+        if (gameCount === 'true') {
+          notice({
+            title: 'Notice',
+            description: '本日プレイ済みのためレコードは記録されません。',
+            duration: 3000,
+            status: 'info',
+          });
+        }
+      })();
+    }
   }, []);
 
   useEffect(() => {
@@ -59,15 +63,18 @@ const Gaming = () => {
     if (testText.length !== 0) {
       setQuestion();
       timeoutId = setTimeout(() => {
-				if(!gameCount){
-					setDayScores(countRef.current);
-					fetchWithBody('/api/scores', 'post', {
-						gameScore: countRef.current,
-						date: new Date(),
-					});
-				}
-      	navigate('/gamescore');
-      }, 1000);
+				const gameCount = localStorage.getItem('gameCount')
+        if (gameCount === 'false') {
+					const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
+
+          setDayScores(countRef.current);
+          fetchWithBody('/api/scores', 'post', {
+            gameScore: countRef.current,
+            date: date,
+          });
+        }
+        navigate('/gamescore');
+      }, 30000);
     }
     return () => {
       if (timeoutId) {
@@ -108,12 +115,11 @@ const Gaming = () => {
         color="#444949"
         variant="outline"
         textAlign="center"
-				
       >
         CARD
         <Grid templateColumns="repeat(3,1fr)" gap="xs">
           {wordArray.map((ele, i) => (
-            <GridItem key={i} w="full" h='5xs'>
+            <GridItem key={i} w="full" h="5xs">
               {wordArray[i] ? (
                 <Card
                   fontWeight="light"
@@ -121,9 +127,11 @@ const Gaming = () => {
                   color="#E7674C"
                   variant="outline"
                   // marginTop="md"
-									borderColor='#E7674C'
+                  borderColor="#E7674C"
                 >
-									<Text fontSize="xl"  textAlign="center" margin='auto'>{correctText}</Text>
+                  <Text fontSize="xl" textAlign="center" margin="auto">
+                    {correctText}
+                  </Text>
                   {/* <CardBody fontSize="xl"  textAlign="center">{correctText}</CardBody> */}
                 </Card>
               ) : (
@@ -138,17 +146,16 @@ const Gaming = () => {
             autoFocus
             size="lg"
             placeholder="Type something ..."
-						_placeholder={{color: '#E7674C'}}
-						focusBorderColor='#E7674C'
+            _placeholder={{ color: '#E7674C' }}
+            focusBorderColor="#E7674C"
             variant="flushed"
             onChange={answer}
             ref={textFieldRef}
-						w='50%'
+            w="50%"
           />
         </Box>
-        <Text color='#E7674C'>{count}pt</Text>
-			<Score />
-
+        <Text color="#E7674C">{count}pt</Text>
+        <Score />
       </Card>
     </Box>
   );

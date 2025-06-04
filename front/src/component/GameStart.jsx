@@ -21,10 +21,13 @@ import { loginContext } from '../App';
 import { fetchWithBody, fetchWithoutBody } from '../function';
 import { useNavigate } from 'react-router';
 import { SunriseIcon, MoonStarIcon } from '@yamada-ui/lucide';
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 const GameStart = () => {
   const navigate = useNavigate();
-  const { categoryNo, setCategoryNo, setGameCount } = useContext(loginContext);
+  const { categoryNo, setCategoryNo } = useContext(loginContext);
+  // const { categoryNo, setCategoryNo, setGameCount } = useContext(loginContext);
   const gameStart = async () => {
     const sleep = new Date();
     const getUp = new Date();
@@ -36,16 +39,19 @@ const GameStart = () => {
     getUp.setHours(getUpHour, getUpMinutes, 0);
 
     const diff = ((getUp - sleep) / (1000 * 60) / 60).toFixed(1);
-    const date = `${getUp.getFullYear()}-${String(
-      getUp.getMonth() + 1
-    ).padStart(2, '0')}-${String(getUp.getDate()).padStart(2, '0')}`;
+    // const date = `${getUp.getFullYear()}-${String(
+    //   getUp.getMonth() + 1
+    // ).padStart(2, '0')}-${String(getUp.getDate()).padStart(2, '0')}`;
+		const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
 
     // 既にその日にプレイしていた場合は記録しない
     const res = await fetchWithoutBody(`/api/records/${date}}`, 'get');
     if (res.ok) {
-      setGameCount(true);
+      // setGameCount(true);
+			localStorage.setItem('gameCount',true)
     } else {
-      setGameCount(false);
+			localStorage.setItem('gameCount',false)
+      // setGameCount(false);
       await fetchWithBody('/api/sleeps/', 'POST', { sleepTime: diff, date });
     }
     navigate('/game', { state: { fromGame: true }, replace: true });

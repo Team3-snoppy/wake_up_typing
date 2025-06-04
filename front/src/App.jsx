@@ -19,7 +19,8 @@ function App() {
   const [dayScores, setDayScores] = useState(0);
   const [categoryNo, setCategoryNo] = useState('1');
   const [count, setCount] = useState(0);
-  const [gameCount, setGameCount] = useState(false);
+  const [LLMtext, setLLMtext] = useState('Not Data...');
+  const [LLMspeech, setLLMspeech] = useState('');
 
   return (
     <>
@@ -35,8 +36,10 @@ function App() {
           setCategoryNo,
           count,
           setCount,
-          gameCount,
-          setGameCount,
+          LLMtext,
+					setLLMtext,
+          LLMspeech,
+					setLLMspeech
         }}
       >
         <BrowserRouter>
