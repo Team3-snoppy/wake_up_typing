@@ -37,7 +37,7 @@ const Appbar = () => {
       // setUserInfo({ id: '', name: '' });
 			// localStorage.setItem('gameCount',false)
 			setLLMtext('')
-			setLLMtext('')
+			setLLMspeech('')
       navigate('/');
       // }
     }
