@@ -7,16 +7,16 @@ import { useNavigate } from 'react-router';
 const SettingPage = () => {
 	const navigate = useNavigate();
 	const { setUserInfo } = useContext(loginContext);
-	useEffect(() => {
-		(async () => {
-			const res = await fetch('/api/auth/myinfo', { credentials: 'include' });
-			if (res.status === 401) {
-				navigate('/login');
-			} else {
-				setUserInfo(await res.json());
-			}
-		})();
-	}, []);
+	// useEffect(() => {
+	// 	(async () => {
+	// 		const res = await fetch('/api/auth/myinfo', { credentials: 'include' });
+	// 		if (res.status === 401) {
+	// 			navigate('/login');
+	// 		} else {
+	// 			setUserInfo(await res.json());
+	// 		}
+	// 	})();
+	// }, []);
 	return (
 		<>
             <Appbar />

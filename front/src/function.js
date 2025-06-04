@@ -1,15 +1,27 @@
 export async function fetchWithBody(url, method, body = {}) {
-  return await fetch(url, {
+  const res = await fetch(url, {
     method: method,
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then((res) => res.json());
+  });
+  const data = await res.json();
+  return {
+    status: res.status,
+    ok: res.ok,
+    data: data.data,
+  };
 }
 
 export async function fetchWithoutBody(url, method) {
-  return await fetch(url, {
+  const res = await fetch(url, {
     method: method,
-  }).then((res) => res.json());
+  });
+  const data = await res.json();
+  return {
+    status: res.status,
+    ok: res.ok,
+    data: data.data,
+  };
 }
