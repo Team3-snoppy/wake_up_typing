@@ -31,16 +31,6 @@ function Register() {
   const [isInvalidName, setIsInvalidName] = useState(false);
   const [isInvalidPassword, setIsInvalidPassword] = useState(false);
 
-  // 認証状態を取得し済みならDashboardへリダイレクトする
-  useEffect(() => {
-    (async () => {
-      const res = await fetch('/api/auth/myInfo', { credentials: 'include' });
-      if (res.status === 200) {
-        navigate('/home');
-      }
-    })();
-  }, []);
-
   const updateName = async (e) => {
     setName(e.target.value);
 		const res = await fetchWithoutBody(`/api/auth/findName?userName=${e.target.value}`, 'get');
