@@ -43,6 +43,7 @@ const Gaming = () => {
           `/api/words/category/${categoryNo}`,
           'get'
         );
+				setCount(0)
         setTestText(res.data.map((item) => item.word));
         const gameCount = localStorage.getItem('gameCount');
         if (gameCount === 'true') {
@@ -85,7 +86,7 @@ useEffect(()=>{
     let timeoutId = null;
     if (testText.length !== 0 && remainingTime > 0) {
       // setQuestion();
-			console.log(remainingTime);
+			// console.log(remainingTime);
 			
       timeoutId = setTimeout(() => {
         setRemainingTime((prev) => prev - 1);
@@ -116,6 +117,7 @@ useEffect(()=>{
   const answer = () => {
     if (textFieldRef.current.value === correctText) {
       const score = Math.ceil(correctText.length ** 1.3);
+      console.log("🍣 ~ Gaming.jsx:119 ~ answer ~ score:", score);
       setCount(count + score);
       textFieldRef.current.value = '';
       setQuestion();
