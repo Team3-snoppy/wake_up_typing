@@ -67,7 +67,7 @@ async function pcmToWavBuffer(
 
 router.use(authCheck);
 
-router.post('/', async (req, res) => {
+router.post('/text', async (req, res) => {
   if (!API_KEY) {
     return res.status(404).json({ data: 'API Keyが見つかりません' });
   }
@@ -85,12 +85,13 @@ router.post('/', async (req, res) => {
     )
   ); // DBから取ってきた日付はUTCになっているのでJSTに変換する
 
-  // const month = format(new Date(), 'yyyy年M月'); // product
-  // const today = format(new Date(), 'yyyy年M月d日'); // product
-  const month = format(new Date('2025-05-01'), 'yyyy年M月'); //debug
-  const today = format(new Date('2025-05-29'), 'yyyy年M月d日'); // debug
+  // #TODO 本番に向けた修正
+  const month = format(new Date(), 'yyyy年M月'); // product
+  const today = format(new Date(), 'yyyy年M月d日'); // product
+  // const month = format(new Date('2025-05-01'), 'yyyy年M月'); //debug
+  // const today = format(new Date('2025-05-29'), 'yyyy年M月d日'); // debug
 
-  const prompt = `あなたはデータからユーザーの傾向を読み取り、前向きでカジュアルな一言アドバイスを出すコーチです。\n以下のデータは、ユーザーの1ヶ月間の「睡眠時間」と「タイピングスコア」です。\nこの情報をもとに、ユーザーに向けた短いフィードバックを4~5文で返してください。\nまた、睡眠時間が足りていない時は心配するとユーザーフレンドリーでいいですね。\nタイピングと睡眠時間の相関からパフォーマンスの維持向上ができるとさらに良いですね。 \n\n【出力ルール】\n- データから「過去との比較」や「今の傾向（向上・下降・安定）」を柔軟に読み取ってください。\n- 今が「月初」「月中」「月末」かを判断して、それに応じたコメントを追加してください。\n- 全体を通して、ポジティブ・やる気が出る・友達のような口調にしてください。\n- 出力は4~5文、絵文字を1つまで使ってOKです。\n\n【データ】\n- 期間：${month}\n- 睡眠時間（時間/日）：${sleepTime}\n- ゲームスコア（日別）：${gameScore}\n-記録日：${dateJa}\n今日の日付：${today}`;
+  const prompt = `あなたはデータからユーザーの傾向を読み取り、前向きな一言アドバイスを出す、優秀で知的な老執事です。\n以下のデータは、ユーザーの1ヶ月間の「睡眠時間」と「タイピングスコア」です。\nこの情報をもとに、ユーザーに向けた短いフィードバックを4~5文で返してください。\nまた、睡眠時間が足りていない時は心配するとユーザーフレンドリーでいいですね。\nタイピングと睡眠時間の相関からパフォーマンスの維持向上ができるとさらに良いですね。 \n\n【出力ルール】\n- データから「過去との比較」や「今の傾向（向上・下降・安定）」を柔軟に読み取ってください。\n- 今が「月初」「月中」「月末」かを判断して、それに応じたコメントを追加してください。\n- 全体を通して、ポジティブ・やる気が出るような口調にしてください。\n- 出力は4~5文、絵文字を1つまで使ってOKです。\n\n【データ】\n- 期間：${month}\n- 睡眠時間（時間/日）：${sleepTime}\n- ゲームスコア（日別）：${gameScore}\n-記録日：${dateJa}\n今日の日付：${today}`;
   const requestBody = {
     contents: [
       {
@@ -98,10 +99,8 @@ router.post('/', async (req, res) => {
       },
     ],
   };
+
   // debug　APIを叩きたくない場合は’true’にする
-  if (!true) {
-    return res.status(200).json({ data: 'hoge' });
-  }
   const maxCount = 3;
   let result;
   for (let count = 1; count <= maxCount; count++) {
@@ -127,14 +126,28 @@ router.post('/', async (req, res) => {
   }
 
   if (result !== 'No result') {
+    return res.status(200).json({ data: result });
+  } else {
+    res.status(500).json({ data: 'No valid response from Gemini' });
+  }
+});
+
+router.post('/speech', async (req, res) => {
+  if (!API_KEY) {
+    return res.status(404).json({ data: 'API Keyが見つかりません' });
+  }
+  const result = req.body.data;
+  if (result !== 'No result') {
     const requestTTS = {
       model: 'gemini-2.5-flash-preview-tts',
-      contents: [{ parts: [{ text: `Say cheerfully:${result}` }] }],
+      contents: [
+        { parts: [{ text: `Say in a calm, gentlemanly manner:${result}` }] },
+      ],
       generationConfig: {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Kore' },
+            prebuiltVoiceConfig: { voiceName: 'Algieba' },
           },
         },
       },
@@ -146,7 +159,9 @@ router.post('/', async (req, res) => {
       },
       body: JSON.stringify(requestTTS),
     });
-    console.log('🍣 ~ Gemini.js:91 ~ router.post ~ responseTTS:', responseTTS);
+    if(!responseTTS.ok){
+      return res.status(responseTTS.status).json({data:'API Error'})
+    }
     const responseTTSJson = await responseTTS.json();
 
     const base64 =
@@ -154,14 +169,11 @@ router.post('/', async (req, res) => {
 
     const audioBuffer = Buffer.from(base64, 'base64');
     // const filename = 'out.wav';
-    // await saveWaveFile(filename, audioBuffer); debug ローカル保存
+    // await saveWaveFile(filename, audioBuffer); // debug ローカル保存
     const wavBuffer = await pcmToWavBuffer(audioBuffer);
     return res.status(200).json({
-      data: result,
-      audioBase64: wavBuffer.toString('base64'),
+      data: wavBuffer.toString('base64'),
     });
-  } else {
-    res.status(500).json({ data: 'No valid response from Gemini' });
   }
 });
 

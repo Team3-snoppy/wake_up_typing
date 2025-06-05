@@ -9,14 +9,14 @@ import {
   Text,
 } from '@yamada-ui/react';
 import { fetchWithoutBody } from '../function';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import { loginContext } from '../App';
 import logo from '../assets/logo.png';
 import { LogOutIcon } from '@yamada-ui/lucide';
 import { useNavigate } from 'react-router';
 
 const Appbar = () => {
-  // const { setIsLogin, setUserInfo, userInfo } = useContext(loginContext);
+  const { setLLMtext,setLLMspeech } = useContext(loginContext);
   const [userName, setUserName] = useState('');
   useEffect(() => {
     (async () => {
@@ -35,6 +35,9 @@ const Appbar = () => {
     if (res.data === 'you logged out succesfully!') {
       // setIsLogin(false);
       // setUserInfo({ id: '', name: '' });
+			// localStorage.setItem('gameCount',false)
+			setLLMtext('')
+			setLLMspeech('')
       navigate('/');
       // }
     }

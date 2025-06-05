@@ -1,27 +1,25 @@
+import { Box, VStack } from '@yamada-ui/react';
 import Appbar from '../component/Appbar';
 import GameStart from '../component/GameStart';
-import { useContext, useEffect } from 'react';
-import { loginContext } from '../App';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 const SettingPage = () => {
 	const navigate = useNavigate();
-	const { setUserInfo } = useContext(loginContext);
-	// useEffect(() => {
-	// 	(async () => {
-	// 		const res = await fetch('/api/auth/myinfo', { credentials: 'include' });
-	// 		if (res.status === 401) {
-	// 			navigate('/login');
-	// 		} else {
-	// 			setUserInfo(await res.json());
-	// 		}
-	// 	})();
-	// }, []);
+  // 認証状態を取得し未認証ならtopへリダイレクトする
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('/api/auth/myInfo', { credentials: 'include' });
+      if (!res.ok) {
+        navigate('/');
+      }
+    })();
+  }, []);
 	return (
-		<>
+		<VStack gap='lg'>
             <Appbar />
             <GameStart />
-		</>
+		</VStack>
 	);
 };
 
