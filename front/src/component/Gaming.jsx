@@ -68,19 +68,22 @@ const Gaming = () => {
     }
   }, [testText]);
 useEffect(()=>{
-	if (remainingTime === 0 && testText.length !== 0) {
-		const gameCount = localStorage.getItem('gameCount');
-		if (gameCount === 'false') {
-			const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
+  (async () => {
 
-			setDayScores(countRef.current);
-			fetchWithBody('/api/scores', 'post', {
-				gameScore: countRef.current,
-				date: date,
-			});
-		}
-		navigate('/gamescore');
-	}
+    if (remainingTime === 0 && testText.length !== 0) {
+      const gameCount = localStorage.getItem('gameCount');
+      if (gameCount === 'false') {
+        const date = format(new Date(), 'yyyy-MM-dd', { locale: ja });
+        
+        setDayScores(countRef.current);
+        await fetchWithBody('/api/scores', 'post', {
+          gameScore: countRef.current,
+          date: date,
+        });
+      }
+      navigate('/gamescore');
+    }
+  })();
 },[remainingTime])
   useEffect(() => {
     let timeoutId = null;
