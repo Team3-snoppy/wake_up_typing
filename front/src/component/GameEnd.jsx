@@ -31,6 +31,7 @@ const GameEnd = () => {
   const [voice, setVoice] = useState(null);
 
   const [isLoad, setIsLoad] = useState(false);
+  const audio = new Audio();
 
   const { setCount, dayScores, LLMtext, setLLMtext, LLMspeech, setLLMspeech } =
     useContext(loginContext);
@@ -94,18 +95,19 @@ const GameEnd = () => {
   }, []);
 
   useEffect(() => {
-		localStorage.setItem('gameCount',true)
+    localStorage.setItem('gameCount', true);
     setAdvice(LLMtext);
   }, [LLMtext]);
 
   useEffect(() => {
-		localStorage.setItem('gameCount',true)
+    localStorage.setItem('gameCount', true);
     setVoice(LLMspeech);
   }, [LLMspeech]);
 
   const playVoice = () => {
-    const audio = new Audio();
     audio.src = `data:audio/wav;base64,${voice}`;
+    audio.pause();
+    audio.currentTime = 0;
     audio.play();
   };
 
@@ -173,13 +175,13 @@ const GameEnd = () => {
                     {advice}
                   </Text>
                 </Box>
-								{LLMspeech ?
-									button
-							:
-                <Tooltip label="読み上げ機能は現在利用できません">
-                  {button}
-                </Tooltip>
-								}
+                {LLMspeech ? (
+                  button
+                ) : (
+                  <Tooltip label="読み上げ機能は現在利用できません">
+                    {button}
+                  </Tooltip>
+                )}
                 <Image
                   src={img}
                   alt="person"
