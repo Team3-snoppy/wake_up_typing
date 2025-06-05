@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
     return res.status(404).json({ data: 'パスワードが違います' });
   }
 
-  const expires_at = new Date(Date.now() + 1000 * 60 * 60); // 1000ms×60秒×60分で１時間の期限設定
+  const expires_at = new Date(Date.now() + 1000 * 60 * 600); // demo用　600時間
 
   try {
     const sessionId = createSession();
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
       httpOnly: true,
       secure: isProduction, // 開発環境だとfalse、本番環境(HTTPS通信時)ではtrue
       sameSite: 'Lax', // クロスサイトリクエスト時のクッキー送信を制御。
-      expires: expires_at,
+      expires: expires_at, 
     });
     res.status(200).json({ data: 'Success login' });
   } catch {

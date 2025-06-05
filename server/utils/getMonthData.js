@@ -5,8 +5,8 @@ const getMonthData = async (req) => {
   const userId = req.user.id;
 
   // #TODO 本番に向けた修正
-  const targetDate = new Date();
-  // const targetDate = new Date('2025-05-01'); // debug用
+  // const targetDate = new Date();
+  const targetDate = new Date('2025-05-01'); // debug用
 
   const start = format(startOfMonth(targetDate), 'yyyy-MM-dd');
   const end = format(endOfMonth(targetDate), 'yyyy-MM-dd');
