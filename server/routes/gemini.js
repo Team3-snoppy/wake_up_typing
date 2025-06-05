@@ -86,10 +86,10 @@ router.post('/text', async (req, res) => {
   ); // DBから取ってきた日付はUTCになっているのでJSTに変換する
 
   // #TODO 本番に向けた修正
-  // const month = format(new Date(), 'yyyy年M月'); // product
-  // const today = format(new Date(), 'yyyy年M月d日'); // product
-  const month = format(new Date('2025-05-01'), 'yyyy年M月'); //debug
-  const today = format(new Date('2025-05-29'), 'yyyy年M月d日'); // debug
+  const month = format(new Date(), 'yyyy年M月'); // product
+  const today = format(new Date(), 'yyyy年M月d日'); // product
+  // const month = format(new Date('2025-05-01'), 'yyyy年M月'); //debug
+  // const today = format(new Date('2025-05-29'), 'yyyy年M月d日'); // debug
 
   const prompt = `あなたはデータからユーザーの傾向を読み取り、前向きな一言アドバイスを出す、優秀で知的な老執事です。\n以下のデータは、ユーザーの1ヶ月間の「睡眠時間」と「タイピングスコア」です。\nこの情報をもとに、ユーザーに向けた短いフィードバックを4~5文で返してください。\nまた、睡眠時間が足りていない時は心配するとユーザーフレンドリーでいいですね。\nタイピングと睡眠時間の相関からパフォーマンスの維持向上ができるとさらに良いですね。 \n\n【出力ルール】\n- データから「過去との比較」や「今の傾向（向上・下降・安定）」を柔軟に読み取ってください。\n- 今が「月初」「月中」「月末」かを判断して、それに応じたコメントを追加してください。\n- 全体を通して、ポジティブ・やる気が出るような口調にしてください。\n- 出力は4~5文、絵文字を1つまで使ってOKです。\n\n【データ】\n- 期間：${month}\n- 睡眠時間（時間/日）：${sleepTime}\n- ゲームスコア（日別）：${gameScore}\n-記録日：${dateJa}\n今日の日付：${today}`;
   const requestBody = {
@@ -100,11 +100,7 @@ router.post('/text', async (req, res) => {
     ],
   };
 
-  // #TODO 本番に向けた修正
   // debug　APIを叩きたくない場合は’true’にする
-  if (!true) {
-    return res.status(200).json({ data: 'hoge' });
-  }
   const maxCount = 3;
   let result;
   for (let count = 1; count <= maxCount; count++) {
